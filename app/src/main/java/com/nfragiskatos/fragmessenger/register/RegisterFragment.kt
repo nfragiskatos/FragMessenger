@@ -36,10 +36,14 @@ class RegisterFragment : Fragment() {
         binding = FragmentRegisterBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.textAlreadyHaveAccountRegister.setOnClickListener {
+            viewModel.displayLogInScreen()
+        }
 
         viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                this.findNavController().navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
+                this.findNavController()
+                    .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
                 viewModel.displayLogInScreenComplete()
             }
         })
@@ -53,13 +57,6 @@ class RegisterFragment : Fragment() {
         button_register_register.setOnClickListener {
             Log.d("RegisterFragment", "Username: ${viewModel.username.value}")
             Log.d("RegisterFragment", "Password: ${viewModel.password.value}")
-        }
-
-//        text_already_have_account_register.setOnClickListener {
-//            Log.d("RegisterFragment", "User already has account. Go to login.")
-//        }
-        binding.textAlreadyHaveAccountRegister.setOnClickListener {
-            viewModel.displayLogInScreen()
         }
     }
 
