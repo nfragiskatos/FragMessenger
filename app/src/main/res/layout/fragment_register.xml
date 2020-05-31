@@ -27,7 +27,7 @@
             android:layout_marginRight="32dp"
             android:background="@android:color/white"
             android:ems="10"
-            android:hint="Username"
+            android:hint="@string/username"
             android:inputType="textPersonName"
             android:paddingStart="@dimen/padding_normal"
             android:paddingLeft="@dimen/padding_normal"
@@ -35,7 +35,8 @@
             android:paddingEnd="@dimen/padding_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:autofillHints="username" />
 
         <EditText
             android:id="@+id/text_email_register"
@@ -44,7 +45,7 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/white"
             android:ems="10"
-            android:hint="Email"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingLeft="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal"
@@ -53,7 +54,8 @@
             app:layout_constraintEnd_toEndOf="@+id/text_username_register"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_username_register"
-            app:layout_constraintTop_toBottomOf="@+id/text_username_register" />
+            app:layout_constraintTop_toBottomOf="@+id/text_username_register"
+            android:autofillHints="email" />
 
         <EditText
             android:id="@+id/text_password_register"
@@ -62,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:background="@android:color/white"
             android:ems="10"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:paddingLeft="@dimen/padding_normal"
             android:paddingStart="@dimen/padding_normal"
@@ -70,6 +72,7 @@
             android:paddingRight="@dimen/padding_normal"
             app:layout_constraintEnd_toEndOf="@+id/text_email_register"
             app:layout_constraintStart_toStartOf="@+id/text_email_register"
-            app:layout_constraintTop_toBottomOf="@+id/text_email_register" />
+            app:layout_constraintTop_toBottomOf="@+id/text_email_register"
+            android:autofillHints="password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
