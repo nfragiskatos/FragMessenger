@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 
 import com.nfragiskatos.funmessenger.R
@@ -14,7 +16,7 @@ import com.nfragiskatos.funmessenger.databinding.FragmentRegisterBinding
 class RegisterFragment : Fragment() {
 
     private val viewModel: RegisterViewModel by lazy {
-        ViewModelProviders.of(this).get(RegisterViewModel::class.java)
+        ViewModelProvider(this).get(RegisterViewModel::class.java)
     }
 
     companion object {
