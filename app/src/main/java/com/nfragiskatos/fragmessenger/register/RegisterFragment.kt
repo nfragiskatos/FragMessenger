@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 
 import com.nfragiskatos.funmessenger.R
 import com.nfragiskatos.funmessenger.databinding.FragmentRegisterBinding
@@ -21,6 +22,8 @@ class RegisterFragment : Fragment() {
         ViewModelProvider(this).get(RegisterViewModel::class.java)
     }
 
+    private lateinit var binding: FragmentRegisterBinding
+
     companion object {
         fun newInstance() = RegisterFragment()
     }
@@ -30,9 +33,16 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        val binding = FragmentRegisterBinding.inflate(inflater)
+        binding = FragmentRegisterBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate) {
+                this.findNavController().navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
+                viewModel.displayLogInScreenComplete()
+            }
+        })
 
         setHasOptionsMenu(true)
         return binding.root
@@ -45,8 +55,11 @@ class RegisterFragment : Fragment() {
             Log.d("RegisterFragment", "Password: ${viewModel.password.value}")
         }
 
-        text_already_have_account_register.setOnClickListener {
-            Log.d("RegisterFragment", "User already has account. Go to login.")
+//        text_already_have_account_register.setOnClickListener {
+//            Log.d("RegisterFragment", "User already has account. Go to login.")
+//        }
+        binding.textAlreadyHaveAccountRegister.setOnClickListener {
+            viewModel.displayLogInScreen()
         }
     }
 
