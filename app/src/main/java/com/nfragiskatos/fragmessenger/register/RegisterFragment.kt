@@ -44,6 +44,10 @@ class RegisterFragment : Fragment() {
             Log.d("RegisterFragment", "Username: ${viewModel.username.value}")
             Log.d("RegisterFragment", "Password: ${viewModel.password.value}")
         }
+
+        text_already_have_account_register.setOnClickListener {
+            Log.d("RegisterFragment", "User already has account. Go to login.")
+        }
     }
 
 }

@@ -87,5 +87,18 @@
             app:layout_constraintEnd_toEndOf="@+id/text_password_register"
             app:layout_constraintStart_toStartOf="@+id/text_password_register"
             app:layout_constraintTop_toBottomOf="@+id/text_password_register" />
+
+        <TextView
+            android:id="@+id/text_already_have_account_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/already_have_an_account"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@+id/button_register_register"
+            app:layout_constraintStart_toStartOf="@+id/button_register_register"
+            app:layout_constraintTop_toBottomOf="@+id/button_register_register" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
