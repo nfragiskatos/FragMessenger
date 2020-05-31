@@ -17,7 +17,7 @@
         tools:context="com.nfragiskatos.fragmessenger.MainActivity">
 
         <EditText
-            android:id="@+id/text_username"
+            android:id="@+id/text_username_register"
             android:layout_width="0dp"
             android:layout_height="@dimen/text_field_height"
             android:layout_marginStart="32dp"
@@ -28,39 +28,48 @@
             android:background="@android:color/white"
             android:ems="10"
             android:hint="Username"
-            android:paddingLeft="@dimen/padding_normal"
             android:inputType="textPersonName"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/text_email"
+            android:id="@+id/text_email_register"
             android:layout_width="0dp"
             android:layout_height="@dimen/text_field_height"
             android:layout_marginTop="8dp"
             android:background="@android:color/white"
             android:ems="10"
             android:hint="Email"
-            android:paddingLeft="@dimen/padding_normal"
             android:inputType="textEmailAddress"
-            app:layout_constraintEnd_toEndOf="@+id/text_username"
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
+            app:layout_constraintEnd_toEndOf="@+id/text_username_register"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/text_username"
-            app:layout_constraintTop_toBottomOf="@+id/text_username" />
+            app:layout_constraintStart_toStartOf="@+id/text_username_register"
+            app:layout_constraintTop_toBottomOf="@+id/text_username_register" />
 
         <EditText
-            android:id="@+id/text_password"
+            android:id="@+id/text_password_register"
             android:layout_width="0dp"
             android:layout_height="@dimen/text_field_height"
             android:layout_marginTop="8dp"
             android:background="@android:color/white"
             android:ems="10"
-            android:paddingLeft="@dimen/padding_normal"
             android:hint="Password"
             android:inputType="textPassword"
-            app:layout_constraintEnd_toEndOf="@+id/text_email"
-            app:layout_constraintStart_toStartOf="@+id/text_email"
-            app:layout_constraintTop_toBottomOf="@+id/text_email" />
+            android:paddingLeft="@dimen/padding_normal"
+            android:paddingStart="@dimen/padding_normal"
+            android:paddingEnd="@dimen/padding_normal"
+            android:paddingRight="@dimen/padding_normal"
+            app:layout_constraintEnd_toEndOf="@+id/text_email_register"
+            app:layout_constraintStart_toStartOf="@+id/text_email_register"
+            app:layout_constraintTop_toBottomOf="@+id/text_email_register" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
