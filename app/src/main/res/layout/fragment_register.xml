@@ -77,5 +77,15 @@
             app:layout_constraintTop_toBottomOf="@+id/text_email_register"
             android:autofillHints="password"
             android:text="@={viewModel.password}"/>
+
+        <Button
+            android:id="@+id/button_register_register"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/register"
+            app:layout_constraintEnd_toEndOf="@+id/text_password_register"
+            app:layout_constraintStart_toStartOf="@+id/text_password_register"
+            app:layout_constraintTop_toBottomOf="@+id/text_password_register" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
