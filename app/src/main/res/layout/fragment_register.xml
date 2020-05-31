@@ -36,6 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="@={viewModel.username}"
             android:autofillHints="username" />
 
         <EditText
@@ -55,7 +56,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_username_register"
             app:layout_constraintTop_toBottomOf="@+id/text_username_register"
-            android:autofillHints="email" />
+            android:autofillHints="email"
+            android:text="@={viewModel.email}"/>
 
         <EditText
             android:id="@+id/text_password_register"
@@ -73,6 +75,7 @@
             app:layout_constraintEnd_toEndOf="@+id/text_email_register"
             app:layout_constraintStart_toStartOf="@+id/text_email_register"
             app:layout_constraintTop_toBottomOf="@+id/text_email_register"
-            android:autofillHints="password" />
+            android:autofillHints="password"
+            android:text="@={viewModel.password}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
