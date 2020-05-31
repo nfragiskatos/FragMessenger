@@ -3,11 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentRegister">
+    app:startDestination="@id/RegisterFragment">
 
     <fragment
-        android:id="@+id/fragmentRegister"
+        android:id="@+id/RegisterFragment"
         android:name="com.nfragiskatos.fragmessenger.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_fragmentRegister_to_logInFragment"
+            app:destination="@id/logInFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.nfragiskatos.fragmessenger.login.LogInFragment"
+        android:label="LogInFragment" />
 </navigation>
