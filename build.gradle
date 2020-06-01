@@ -15,6 +15,7 @@ buildscript {
         version_espresso_core = "3.2.0"
         version_google_services = "4.3.3"
         version_firebase_analytics = "17.2.2"
+        version_firebase_auth = "19.3.1"
     }
 
 
