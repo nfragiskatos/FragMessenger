@@ -36,7 +36,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:autofillHints="@string/email" />
+            app:layout_constraintBottom_toTopOf="@+id/text_password_log_in"
+            android:autofillHints="@string/email"
+            app:layout_constraintVertical_chainStyle="packed"/>
 
         <EditText
             android:id="@+id/text_password_log_in"
@@ -54,19 +56,23 @@
             app:layout_constraintEnd_toEndOf="@+id/text_email_log_in"
             app:layout_constraintStart_toStartOf="@+id/text_email_log_in"
             app:layout_constraintTop_toBottomOf="@+id/text_email_log_in"
-            android:autofillHints="@string/password" />
+            app:layout_constraintBottom_toTopOf="@+id/button_log_in_log_in"
+            android:autofillHints="@string/password"
+            />
 
         <Button
             android:id="@+id/button_log_in_log_in"
             android:layout_width="0dp"
             android:layout_height="@dimen/text_field_height"
             android:layout_marginTop="8dp"
+            android:background="@drawable/button_bg"
             android:text="@string/log_in"
             android:textColor="@android:color/white"
-            android:background="@drawable/button_bg"
             app:layout_constraintEnd_toEndOf="@+id/text_password_log_in"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_password_log_in"
-            app:layout_constraintTop_toBottomOf="@+id/text_password_log_in" />
+            app:layout_constraintTop_toBottomOf="@+id/text_password_log_in"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

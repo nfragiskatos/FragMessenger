@@ -36,8 +36,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/text_email_register"
             android:text="@={viewModel.username}"
-            android:autofillHints="@string/username" />
+            android:autofillHints="@string/username"
+            app:layout_constraintVertical_chainStyle="packed"/>
 
         <EditText
             android:id="@+id/text_email_register"
@@ -56,6 +58,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_username_register"
             app:layout_constraintTop_toBottomOf="@+id/text_username_register"
+            app:layout_constraintBottom_toTopOf="@+id/text_password_register"
             android:autofillHints="@string/email"
             android:text="@={viewModel.email}"/>
 
@@ -75,6 +78,7 @@
             app:layout_constraintEnd_toEndOf="@+id/text_email_register"
             app:layout_constraintStart_toStartOf="@+id/text_email_register"
             app:layout_constraintTop_toBottomOf="@+id/text_email_register"
+            app:layout_constraintBottom_toTopOf="@+id/button_register_register"
             android:autofillHints="@string/password"
             android:text="@={viewModel.password}"/>
 
@@ -88,7 +92,8 @@
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/text_password_register"
             app:layout_constraintStart_toStartOf="@+id/text_password_register"
-            app:layout_constraintTop_toBottomOf="@+id/text_password_register" />
+            app:layout_constraintTop_toBottomOf="@+id/text_password_register"
+            app:layout_constraintBottom_toTopOf="@+id/text_already_have_account_register"/>
 
         <TextView
             android:id="@+id/text_already_have_account_register"
@@ -101,6 +106,7 @@
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/button_register_register"
             app:layout_constraintStart_toStartOf="@+id/button_register_register"
-            app:layout_constraintTop_toBottomOf="@+id/button_register_register" />
+            app:layout_constraintTop_toBottomOf="@+id/button_register_register"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
