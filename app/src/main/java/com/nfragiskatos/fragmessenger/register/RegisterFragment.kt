@@ -45,16 +45,12 @@ class RegisterFragment : Fragment() {
             }
         })
 
-        setHasOptionsMenu(true)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        button_register_register.setOnClickListener {
+        binding.buttonRegisterRegister.setOnClickListener {
             Log.d("RegisterFragment", "Username: ${viewModel.username.value}")
             Log.d("RegisterFragment", "Password: ${viewModel.password.value}")
         }
-    }
 
+        setHasOptionsMenu(true)
+        return binding.root
+    }
 }
