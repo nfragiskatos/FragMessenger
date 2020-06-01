@@ -71,6 +71,7 @@ class LogInFragment : Fragment() {
     }
 
     private fun onFailedLogIn(result: Exception) {
+        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT).show()
         Log.d("LogInFragment", "Failed to log in user: ${result.message}")
     }
 }
