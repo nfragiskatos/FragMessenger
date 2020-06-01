@@ -1,4 +1,4 @@
-package com.nfragiskatos.funmessenger
+package com.nfragiskatos.fragmessenger
 
 import org.junit.Test
 

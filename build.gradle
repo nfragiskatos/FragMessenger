@@ -13,6 +13,8 @@ buildscript {
         version_junit = "4.12"
         version_test_ext_junit = "1.1.1"
         version_espresso_core = "3.2.0"
+        version_google_services = "4.3.3"
+        version_firebase_analytics = "17.2.2"
     }
 
 
@@ -25,6 +27,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.6.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$version_navigation"
+        classpath "com.google.gms:google-services:$version_google_services"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

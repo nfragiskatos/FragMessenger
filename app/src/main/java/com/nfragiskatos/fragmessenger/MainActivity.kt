@@ -2,7 +2,6 @@ package com.nfragiskatos.fragmessenger
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.nfragiskatos.funmessenger.R
 
 class MainActivity : AppCompatActivity() {
 
