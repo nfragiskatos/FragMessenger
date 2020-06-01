@@ -88,6 +88,7 @@ class RegisterFragment : Fragment() {
     }
 
     private fun onFailedRegistration(result: Exception) {
+        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT).show()
         Log.d("RegisterFragment", "Failed to create user: ${result.message}")
     }
 }
