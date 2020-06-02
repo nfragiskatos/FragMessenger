@@ -3,6 +3,7 @@ package com.nfragiskatos.fragmessenger.register
 import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -17,11 +18,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 import com.nfragiskatos.fragmessenger.databinding.FragmentRegisterBinding
 import java.lang.Exception
+import java.util.*
 
 class RegisterFragment : Fragment() {
+
+    private var selectedPhotoUri: Uri? = null
 
     private val viewModel: RegisterViewModel by lazy {
         ViewModelProvider(this).get(RegisterViewModel::class.java)
@@ -34,8 +40,8 @@ class RegisterFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         binding = FragmentRegisterBinding.inflate(inflater)
@@ -48,7 +54,7 @@ class RegisterFragment : Fragment() {
         viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
-                        .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
+                    .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
                 viewModel.displayLogInScreenComplete()
             }
         })
@@ -60,7 +66,7 @@ class RegisterFragment : Fragment() {
         binding.buttonSelectPhotoRegister.setOnClickListener {
             Log.d("RegisterFragment", "Try and show photo selector")
             val intent = Intent(Intent.ACTION_PICK)
-            intent.type ="image/*"
+            intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
 
@@ -74,17 +80,18 @@ class RegisterFragment : Fragment() {
         val password = viewModel.password.value
 
         if (email == null || password == null) {
-            Toast.makeText(context, "Please enter text in email and password.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please enter text in email and password.", Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener { result ->
-                    onCompletedRegistration(result)
-                }
-                .addOnFailureListener { result ->
-                    onFailedRegistration(result)
-                }
+            .addOnCompleteListener { result ->
+                onCompletedRegistration(result)
+            }
+            .addOnFailureListener { result ->
+                onFailedRegistration(result)
+            }
     }
 
     private fun onCompletedRegistration(result: Task<AuthResult>) {
@@ -93,13 +100,16 @@ class RegisterFragment : Fragment() {
             return
         }
 
-        Log.d("RegisterFragment",
-                "Successfully created user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
+        Log.d(
+            "RegisterFragment",
+            "Successfully created user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
         )
+        uploadImageToFirebaseStorage()
     }
 
     private fun onFailedRegistration(result: Exception) {
-        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT)
+            .show()
         Log.d("RegisterFragment", "Failed to create user: ${result.message}")
     }
 
@@ -109,10 +119,26 @@ class RegisterFragment : Fragment() {
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
             Log.d("RegisterFragment", "Photo was selected")
 
-            val uri = data.data
-            val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
+            selectedPhotoUri = data.data
+            val bitmap =
+                MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
             val bitmapDrawable = BitmapDrawable(bitmap)
             binding.buttonSelectPhotoRegister.setBackgroundDrawable(bitmapDrawable)
         }
+    }
+
+    private fun uploadImageToFirebaseStorage() {
+
+        if (selectedPhotoUri == null) {
+            return
+        }
+
+        var filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("RegisterFragment", "Successfully uploaded image: ${it.metadata?.path}")
+            }
     }
 }
