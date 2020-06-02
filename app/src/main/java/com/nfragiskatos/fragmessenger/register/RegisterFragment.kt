@@ -1,6 +1,10 @@
 package com.nfragiskatos.fragmessenger.register
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -53,6 +57,13 @@ class RegisterFragment : Fragment() {
             performRegistration()
         }
 
+        binding.buttonSelectPhotoRegister.setOnClickListener {
+            Log.d("RegisterFragment", "Try and show photo selector")
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type ="image/*"
+            startActivityForResult(intent, 0)
+        }
+
 
         setHasOptionsMenu(true)
         return binding.root
@@ -90,5 +101,18 @@ class RegisterFragment : Fragment() {
     private fun onFailedRegistration(result: Exception) {
         Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT).show()
         Log.d("RegisterFragment", "Failed to create user: ${result.message}")
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            Log.d("RegisterFragment", "Photo was selected")
+
+            val uri = data.data
+            val bitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, uri)
+            val bitmapDrawable = BitmapDrawable(bitmap)
+            binding.buttonSelectPhotoRegister.setBackgroundDrawable(bitmapDrawable)
+        }
     }
 }
