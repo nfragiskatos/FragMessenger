@@ -51,6 +51,10 @@ dependencies {
     // Firebase
     implementation "com.google.firebase:firebase-analytics:$version_firebase_analytics"
     implementation "com.google.firebase:firebase-auth-ktx:$version_firebase_auth"
+    implementation "com.google.firebase:firebase-storage-ktx:$version_firebase_storage"
+    implementation "com.google.firebase:firebase-database-ktx:$version_firebase_database"
+
+
 
 
 }

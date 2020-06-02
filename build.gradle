@@ -16,6 +16,8 @@ buildscript {
         version_google_services = "4.3.3"
         version_firebase_analytics = "17.2.2"
         version_firebase_auth = "19.3.1"
+        version_firebase_storage = "19.1.1"
+        version_firebase_database = "19.3.0"
     }
 
 
