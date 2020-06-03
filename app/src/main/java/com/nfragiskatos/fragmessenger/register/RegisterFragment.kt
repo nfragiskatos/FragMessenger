@@ -139,6 +139,29 @@ class RegisterFragment : Fragment() {
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
                 Log.d("RegisterFragment", "Successfully uploaded image: ${it.metadata?.path}")
+
+                ref.downloadUrl.addOnSuccessListener {
+
+                    Log.d("RegisterFragment", "File Location: $it")
+
+                    saveUserToFirebaseDatabase(it.toString())
+                }
+            }
+    }
+
+    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
+        val uid = FirebaseAuth.getInstance().uid ?: ""
+        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+
+        val user = User(uid, viewModel.username.value ?: "", profileImageUrl)
+        ref.setValue(user)
+            .addOnSuccessListener {
+                Log.d("RegisterFragment", "Finally saved user to Firebase database")
+            }
+            .addOnFailureListener {
+                Log.d("RegisterFragment", "Failed: $it")
             }
     }
 }
+
+class User(val uid: String, val username: String, val profileImageUrl: String)
