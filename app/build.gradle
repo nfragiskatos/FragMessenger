@@ -55,6 +55,8 @@ dependencies {
     implementation "com.google.firebase:firebase-database-ktx:$version_firebase_database"
 
 
+    // Circle Image View
+    implementation "de.hdodenhof:circleimageview:$version_circle_image_view"
 
 
 }
