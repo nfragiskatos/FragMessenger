@@ -122,8 +122,11 @@ class RegisterFragment : Fragment() {
             selectedPhotoUri = data.data
             val bitmap =
                 MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
-            val bitmapDrawable = BitmapDrawable(bitmap)
-            binding.buttonSelectPhotoRegister.setBackgroundDrawable(bitmapDrawable)
+//            val bitmapDrawable = BitmapDrawable(bitmap)
+//            binding.buttonSelectPhotoRegister.setBackgroundDrawable(bitmapDrawable)
+
+            binding.imageViewSelectPhotoRegister.setImageBitmap(bitmap)
+            binding.buttonSelectPhotoRegister.alpha = 0f
         }
     }
 
