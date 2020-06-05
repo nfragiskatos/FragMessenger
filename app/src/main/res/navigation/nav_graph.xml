@@ -20,7 +20,11 @@
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.nfragiskatos.fragmessenger.login.LogInFragment"
-        android:label="LogInFragment" />
+        android:label="LogInFragment" >
+        <action
+            android:id="@+id/action_logInFragment_to_latestMessagesFragment"
+            app:destination="@id/latestMessagesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/latestMessagesFragment"
         android:name="com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment"

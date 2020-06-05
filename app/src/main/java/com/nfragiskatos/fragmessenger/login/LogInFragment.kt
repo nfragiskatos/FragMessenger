@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -26,8 +28,8 @@ class LogInFragment : Fragment() {
     }
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         val binding = FragmentLogInBinding.inflate(inflater)
@@ -38,7 +40,13 @@ class LogInFragment : Fragment() {
             performLogIn()
         }
 
-//        FirebaseAuth.getInstance().signInWithEmailAndPassword(viewModel)
+        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate) {
+                this.findNavController()
+                    .navigate(LogInFragmentDirections.actionLogInFragmentToLatestMessagesFragment())
+                viewModel.displayLatestMessagesScreenComplete()
+            }
+        })
 
         return binding.root
     }
@@ -48,13 +56,15 @@ class LogInFragment : Fragment() {
         val password = viewModel.password.value
 
         if (email == null || password == null) {
-            Toast.makeText(context, "Please enter text in email and password.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please enter text in email and password.", Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            onCompletedLogIn(it)
-        }.addOnFailureListener {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                onCompletedLogIn(it)
+            }.addOnFailureListener {
             onFailedLogIn(it)
         }
     }
@@ -65,13 +75,16 @@ class LogInFragment : Fragment() {
             return
         }
 
-        Log.d("LogInFragment",
-                "Successfully logged in user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
+        Log.d(
+            "LogInFragment",
+            "Successfully logged in user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
         )
+        viewModel.displayLatestMessagesScreen()
     }
 
     private fun onFailedLogIn(result: Exception) {
-        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT)
+            .show()
         Log.d("LogInFragment", "Failed to log in user: ${result.message}")
     }
 }
