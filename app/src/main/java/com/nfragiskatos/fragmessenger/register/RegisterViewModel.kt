@@ -14,12 +14,25 @@ class RegisterViewModel : ViewModel() {
     val navigateToLogInScreen: LiveData<Boolean>
         get() = _navigateToLogInScreen
 
+    private val _navigateToLatestMessagesScreen = MutableLiveData<Boolean>()
+    val navigateToLatestMessagesScreen: LiveData<Boolean>
+        get() = _navigateToLatestMessagesScreen
+
+
     fun displayLogInScreen() {
         _navigateToLogInScreen.value = true
     }
 
     fun displayLogInScreenComplete() {
         _navigateToLogInScreen.value = false
+    }
+
+    fun displayLatestMessagesScreen() {
+        _navigateToLatestMessagesScreen.value = true
+    }
+
+    fun displayLatestMessagesScreenComplete() {
+        _navigateToLatestMessagesScreen.value = false
     }
 
 }

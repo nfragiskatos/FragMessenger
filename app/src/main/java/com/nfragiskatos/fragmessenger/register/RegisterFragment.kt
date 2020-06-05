@@ -70,6 +70,14 @@ class RegisterFragment : Fragment() {
             startActivityForResult(intent, 0)
         }
 
+        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate) {
+                this.findNavController()
+                    .navigate(RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
+                viewModel.displayLatestMessagesScreenComplete()
+            }
+        })
+
 
         setHasOptionsMenu(true)
         return binding.root
@@ -122,9 +130,6 @@ class RegisterFragment : Fragment() {
             selectedPhotoUri = data.data
             val bitmap =
                 MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedPhotoUri)
-//            val bitmapDrawable = BitmapDrawable(bitmap)
-//            binding.buttonSelectPhotoRegister.setBackgroundDrawable(bitmapDrawable)
-
             binding.imageViewSelectPhotoRegister.setImageBitmap(bitmap)
             binding.buttonSelectPhotoRegister.alpha = 0f
         }
@@ -160,6 +165,7 @@ class RegisterFragment : Fragment() {
         ref.setValue(user)
             .addOnSuccessListener {
                 Log.d("RegisterFragment", "Finally saved user to Firebase database")
+                viewModel.displayLatestMessagesScreen()
             }
             .addOnFailureListener {
                 Log.d("RegisterFragment", "Failed: $it")
