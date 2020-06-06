@@ -34,5 +34,12 @@
             app:destination="@id/RegisterFragment"
             app:popUpTo="@+id/latestMessagesFragment"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_latestMessagesFragment_to_newMessageFragment"
+            app:destination="@id/newMessageFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/newMessageFragment"
+        android:name="com.nfragiskatos.fragmessenger.newmessage.NewMessageFragment"
+        android:label="NewMessageFragment" />
 </navigation>
