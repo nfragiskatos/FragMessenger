@@ -2,6 +2,8 @@ package com.nfragiskatos.fragmessenger
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -23,5 +25,11 @@ class MainActivity : AppCompatActivity() {
             if (Firebase.auth.currentUser == null) R.id.RegisterFragment else R.id.latestMessagesFragment
 
         navController.graph = graph
+
+        val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+
+        viewModel.actionBarTitle.observe(this, Observer {
+            supportActionBar?.title = it
+        })
     }
 }
