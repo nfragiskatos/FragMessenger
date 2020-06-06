@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentNewMessageBinding
 
@@ -31,6 +32,9 @@ class NewMessageFragment : Fragment() {
         binding = FragmentNewMessageBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+
+        val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
+        mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
         return binding.root
     }

@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentLatestMessagesBinding
 
@@ -61,6 +62,7 @@ class LatestMessagesFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+        initActionBarTitle()
         return binding.root
     }
 
@@ -82,6 +84,11 @@ class LatestMessagesFragment : Fragment() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun initActionBarTitle() {
+        val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
+        mainViewModel?.updateActionBarTitle(resources.getString(R.string.app_name))
     }
 
 }
