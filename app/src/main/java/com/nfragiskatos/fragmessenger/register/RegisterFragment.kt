@@ -18,8 +18,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 
 import com.nfragiskatos.fragmessenger.databinding.FragmentRegisterBinding
 import java.lang.Exception
@@ -95,14 +99,21 @@ class RegisterFragment : Fragment() {
             return
         }
 
-        // TODO Change to use ktx version...
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener { result ->
-                onCompletedRegistration(result)
+        Firebase.auth.createUserWithEmailAndPassword(email, password)
+            .addOnSuccessListener {
+                onCompletedRegistration(it)
             }
-            .addOnFailureListener { result ->
-                onFailedRegistration(result)
+            .addOnFailureListener {
+                onFailedRegistration(it)
             }
+    }
+
+    private fun onCompletedRegistration(result: AuthResult) {
+        Log.d(
+            TAG,
+            "Successfully created user with\nuid: ${result?.user?.uid}\nemail: ${result?.user?.email}"
+        )
+        uploadImageToFirebaseStorage()
     }
 
     private fun onCompletedRegistration(result: Task<AuthResult>) {
@@ -145,10 +156,10 @@ class RegisterFragment : Fragment() {
         }
 
         var filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
+        val ref = Firebase.storage.getReference("/images/$filename")
 
         ref.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener {
+            .addOnSuccessListener { it ->
                 Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
@@ -161,8 +172,8 @@ class RegisterFragment : Fragment() {
     }
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
-        val uid = FirebaseAuth.getInstance().uid ?: ""
-        val ref = FirebaseDatabase.getInstance().getReference("/users/$uid")
+        val uid = Firebase.auth.uid ?: ""
+        val ref = Firebase.database.getReference("/users/$uid")
 
         val user = User(uid, viewModel.username.value ?: "", profileImageUrl)
         ref.setValue(user)
