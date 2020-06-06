@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/RegisterFragment">
+    app:startDestination="@id/latestMessagesFragment">
 
     <fragment
         android:id="@+id/RegisterFragment"
@@ -28,5 +28,11 @@
     <fragment
         android:id="@+id/latestMessagesFragment"
         android:name="com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment"
-        android:label="LatestMessagesFragment" />
+        android:label="LatestMessagesFragment" >
+        <action
+            android:id="@+id/action_latestMessagesFragment_to_RegisterFragment"
+            app:destination="@id/RegisterFragment"
+            app:popUpTo="@+id/latestMessagesFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>
