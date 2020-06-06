@@ -17,4 +17,16 @@ class LatestMessagesViewModel : ViewModel() {
     fun displayRegisterScreenComplete() {
         _navigateToRegisterScreen.value = false
     }
+
+    private val _navigateToNewMessageScreen = MutableLiveData<Boolean>()
+    val navigateToNewMessageScreen: LiveData<Boolean>
+        get() = _navigateToNewMessageScreen
+
+    fun displayNewMessageScreen() {
+        _navigateToNewMessageScreen.value = true
+    }
+
+    fun displayNewMessageScreenComplete() {
+        _navigateToNewMessageScreen.value = false
+    }
 }

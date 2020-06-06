@@ -52,6 +52,13 @@ class LatestMessagesFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner, Observer {navigate ->
+            if (navigate) {
+                findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToNewMessageFragment())
+                viewModel.displayNewMessageScreenComplete()
+            }
+        })
+
         setHasOptionsMenu(true)
 
         return binding.root
@@ -66,6 +73,7 @@ class LatestMessagesFragment : Fragment() {
         when (item.itemId) {
             R.id.menu_new_message -> {
                 Log.d(TAG, "Creating new message...")
+                viewModel.displayNewMessageScreen()
             }
             R.id.menu_sign_out -> {
                 Log.d(TAG, "Signing out...")
