@@ -27,6 +27,8 @@ import java.util.*
 
 class RegisterFragment : Fragment() {
 
+    private val TAG = "RegisterFragment"
+
     private var selectedPhotoUri: Uri? = null
 
     private val viewModel: RegisterViewModel by lazy {
@@ -64,7 +66,7 @@ class RegisterFragment : Fragment() {
         }
 
         binding.buttonSelectPhotoRegister.setOnClickListener {
-            Log.d("RegisterFragment", "Try and show photo selector")
+            Log.d(TAG, "Try and show photo selector")
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
@@ -93,6 +95,7 @@ class RegisterFragment : Fragment() {
             return
         }
 
+        // TODO Change to use ktx version...
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { result ->
                 onCompletedRegistration(result)
@@ -104,12 +107,12 @@ class RegisterFragment : Fragment() {
 
     private fun onCompletedRegistration(result: Task<AuthResult>) {
         if (!result.isSuccessful) {
-            Log.d("RegisterFragment", "Completed with failure: ${result.exception}")
+            Log.d(TAG, "Completed with failure: ${result.exception}")
             return
         }
 
         Log.d(
-            "RegisterFragment",
+            TAG,
             "Successfully created user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
         )
         uploadImageToFirebaseStorage()
@@ -118,14 +121,14 @@ class RegisterFragment : Fragment() {
     private fun onFailedRegistration(result: Exception) {
         Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT)
             .show()
-        Log.d("RegisterFragment", "Failed to create user: ${result.message}")
+        Log.d(TAG, "Failed to create user: ${result.message}")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
-            Log.d("RegisterFragment", "Photo was selected")
+            Log.d(TAG, "Photo was selected")
 
             selectedPhotoUri = data.data
             val bitmap =
@@ -146,11 +149,11 @@ class RegisterFragment : Fragment() {
 
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
-                Log.d("RegisterFragment", "Successfully uploaded image: ${it.metadata?.path}")
+                Log.d(TAG, "Successfully uploaded image: ${it.metadata?.path}")
 
                 ref.downloadUrl.addOnSuccessListener {
 
-                    Log.d("RegisterFragment", "File Location: $it")
+                    Log.d(TAG, "File Location: $it")
 
                     saveUserToFirebaseDatabase(it.toString())
                 }
@@ -164,11 +167,11 @@ class RegisterFragment : Fragment() {
         val user = User(uid, viewModel.username.value ?: "", profileImageUrl)
         ref.setValue(user)
             .addOnSuccessListener {
-                Log.d("RegisterFragment", "Finally saved user to Firebase database")
+                Log.d(TAG, "Finally saved user to Firebase database")
                 viewModel.displayLatestMessagesScreen()
             }
             .addOnFailureListener {
-                Log.d("RegisterFragment", "Failed: $it")
+                Log.d(TAG, "Failed: $it")
             }
     }
 }

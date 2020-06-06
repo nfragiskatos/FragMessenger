@@ -19,6 +19,8 @@ import java.lang.Exception
 
 class LogInFragment : Fragment() {
 
+    private val TAG = "LogInFragment"
+
     private val viewModel: LogInViewModel by lazy {
         ViewModelProvider(this).get(LogInViewModel::class.java)
     }
@@ -71,12 +73,12 @@ class LogInFragment : Fragment() {
 
     private fun onCompletedLogIn(result: Task<AuthResult>) {
         if (!result.isSuccessful) {
-            Log.d("LogInFragment", "Completed with failure: ${result.exception}")
+            Log.d(TAG, "Completed with failure: ${result.exception}")
             return
         }
 
         Log.d(
-            "LogInFragment",
+            TAG,
             "Successfully logged in user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
         )
         viewModel.displayLatestMessagesScreen()
@@ -85,6 +87,6 @@ class LogInFragment : Fragment() {
     private fun onFailedLogIn(result: Exception) {
         Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT)
             .show()
-        Log.d("LogInFragment", "Failed to log in user: ${result.message}")
+        Log.d(TAG, "Failed to log in user: ${result.message}")
     }
 }
