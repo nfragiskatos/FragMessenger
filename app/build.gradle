@@ -59,4 +59,6 @@ dependencies {
     implementation "de.hdodenhof:circleimageview:$version_circle_image_view"
 
 
+    // Picasso - Image downloading and caching
+    implementation "com.squareup.picasso:picasso:$version_picasso"
 }
