@@ -1,6 +1,5 @@
 package com.nfragiskatos.fragmessenger.latestmessages
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -8,8 +7,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.MainViewModel
@@ -53,7 +50,7 @@ class LatestMessagesFragment : Fragment() {
             }
         })
 
-        viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner, Observer {navigate ->
+        viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToNewMessageFragment())
                 viewModel.displayNewMessageScreenComplete()

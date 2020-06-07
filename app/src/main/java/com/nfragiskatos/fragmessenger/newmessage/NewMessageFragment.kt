@@ -1,11 +1,10 @@
 package com.nfragiskatos.fragmessenger.newmessage
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
@@ -37,7 +36,6 @@ class NewMessageFragment : Fragment() {
         mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
         binding.recyclerviewNewMessage.adapter = UserListAdapter()
-
         viewModel.setData()
 
         return binding.root
