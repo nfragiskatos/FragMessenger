@@ -10,7 +10,7 @@ import com.nfragiskatos.fragmessenger.databinding.ListViewUserItemBinding
 class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
-        return UserViewHolder(ListViewUserItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return UserViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
@@ -18,11 +18,21 @@ class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(Diff
         holder.bind(item)
     }
 
-
-    class UserViewHolder(private var binding: ListViewUserItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class UserViewHolder private constructor(val binding: ListViewUserItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(user: String) {
-            binding.textView.text = user
-            binding.executePendingBindings()
+            binding.textViewUserName.text = user
+        }
+
+        companion object {
+            fun from(parent: ViewGroup): UserViewHolder {
+                val binding = ListViewUserItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+                return UserViewHolder(binding)
+            }
         }
     }
 
@@ -34,7 +44,5 @@ class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(Diff
         override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
-
     }
-
 }
