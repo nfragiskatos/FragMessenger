@@ -36,6 +36,10 @@ class NewMessageFragment : Fragment() {
         val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
         mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
+        binding.recyclerviewNewMessage.adapter = UserListAdapter()
+
+        viewModel.setData()
+
         return binding.root
     }
 }
