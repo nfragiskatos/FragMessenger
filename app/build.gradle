@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -61,4 +62,7 @@ dependencies {
 
     // Picasso - Image downloading and caching
     implementation "com.squareup.picasso:picasso:$version_picasso"
+
+    // Recycler View dependency
+    implementation "androidx.recyclerview:recyclerview:$version_recyclerview"
 }
