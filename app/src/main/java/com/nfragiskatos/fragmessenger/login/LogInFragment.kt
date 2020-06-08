@@ -38,10 +38,6 @@ class LogInFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
-        binding.buttonLogInLogIn.setOnClickListener {
-            performLogIn()
-        }
-
         viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
@@ -50,43 +46,15 @@ class LogInFragment : Fragment() {
             }
         })
 
-        return binding.root
-    }
+        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, it)
+        })
 
-    private fun performLogIn() {
-        val email = viewModel.email.value
-        val password = viewModel.password.value
-
-        if (email == null || password == null) {
-            Toast.makeText(context, "Please enter text in email and password.", Toast.LENGTH_SHORT)
+        viewModel.notification.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
-            return
-        }
+        })
 
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                onCompletedLogIn(it)
-            }.addOnFailureListener {
-            onFailedLogIn(it)
-        }
-    }
-
-    private fun onCompletedLogIn(result: Task<AuthResult>) {
-        if (!result.isSuccessful) {
-            Log.d(TAG, "Completed with failure: ${result.exception}")
-            return
-        }
-
-        Log.d(
-            TAG,
-            "Successfully logged in user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
-        )
-        viewModel.displayLatestMessagesScreen()
-    }
-
-    private fun onFailedLogIn(result: Exception) {
-        Toast.makeText(context, "Failed to create user: ${result.message}", Toast.LENGTH_SHORT)
-            .show()
-        Log.d(TAG, "Failed to log in user: ${result.message}")
+        return binding.root
     }
 }
