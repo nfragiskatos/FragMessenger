@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewUserItemBinding
+import com.nfragiskatos.fragmessenger.register.User
+import com.squareup.picasso.Picasso
 
-class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(DiffCallback) {
+class UserListAdapter() : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder.from(parent)
@@ -20,8 +22,10 @@ class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(Diff
 
     class UserViewHolder private constructor(val binding: ListViewUserItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: String) {
-            binding.textViewUserName.text = user
+        fun bind(user: User) {
+            binding.textViewUserName.text = user.username
+            Picasso.get().load(user.profileImageUrl).into(binding.imageViewProfilePicture)
+
         }
 
         companion object {
@@ -36,12 +40,12 @@ class UserListAdapter : ListAdapter<String, UserListAdapter.UserViewHolder>(Diff
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
-            return oldItem == newItem
+    companion object DiffCallback : DiffUtil.ItemCallback<User>() {
+        override fun areItemsTheSame(oldItem: User, newItem: User): Boolean {
+            return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: User, newItem: User): Boolean {
             return oldItem == newItem
         }
     }
