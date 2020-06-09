@@ -3,21 +3,41 @@ package com.nfragiskatos.fragmessenger.newmessage
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.nfragiskatos.fragmessenger.register.User
 
 class NewMessageViewModel : ViewModel() {
 
-    private val _users = MutableLiveData<List<String>>()
-    val users: LiveData<List<String>>
+    private val _users = MutableLiveData<List<User>>()
+    val users: LiveData<List<User>>
         get() = _users
 
-    fun setData() {
-        var users = ArrayList<String>()
-        users.add("Harry Potter")
-        users.add("Ron Weasley")
-        users.add("Hermione Granger")
-        users.add("Rubeus Hagrid")
-        users.add("Minverva McGonagall")
+    private val _notification = MutableLiveData<String>()
+    val notification: LiveData<String>
+        get() = _notification
 
-        _users.value = users
+    private val _logMessage = MutableLiveData<String>()
+    val logMessage: LiveData<String>
+        get() = _logMessage
+
+    fun fetchUsers() {
+        val ref = Firebase.database.getReference("/users")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                _logMessage.value = "User fetch cancelled"
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                val map = p0.children.map {
+                    it.getValue(User::class.java)
+                }
+                _users.value = map as List<User>
+            }
+        })
+
     }
 }
