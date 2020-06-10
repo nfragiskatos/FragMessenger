@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.nfragiskatos.fragmessenger.domain.User
 import java.util.*
 
 class RegisterViewModel : ViewModel() {
@@ -105,7 +106,11 @@ class RegisterViewModel : ViewModel() {
         val uid = Firebase.auth.uid ?: ""
         val ref = Firebase.database.getReference("/users/$uid")
 
-        val user = User(uid, username.value ?: "", profileImageUrl)
+        val user = User(
+            uid,
+            username.value ?: "",
+            profileImageUrl
+        )
         ref.setValue(user)
             .addOnSuccessListener {
                 _logMessage.value = "Finally saved user to Firebase database"
@@ -117,6 +122,3 @@ class RegisterViewModel : ViewModel() {
     }
 }
 
-data class User(val uid: String, val username: String, val profileImageUrl: String) {
-    constructor() : this("", "", "")
-}

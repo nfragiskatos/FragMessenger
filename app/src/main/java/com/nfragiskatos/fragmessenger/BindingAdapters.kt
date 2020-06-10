@@ -3,7 +3,7 @@ package com.nfragiskatos.fragmessenger
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.newmessage.UserListAdapter
-import com.nfragiskatos.fragmessenger.register.User
+import com.nfragiskatos.fragmessenger.domain.User
 
 
 @BindingAdapter("listData")

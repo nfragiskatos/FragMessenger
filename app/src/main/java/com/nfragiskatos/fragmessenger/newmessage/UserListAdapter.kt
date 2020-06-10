@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewUserItemBinding
-import com.nfragiskatos.fragmessenger.register.User
+import com.nfragiskatos.fragmessenger.domain.User
 import com.squareup.picasso.Picasso
 
 class UserListAdapter() : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
