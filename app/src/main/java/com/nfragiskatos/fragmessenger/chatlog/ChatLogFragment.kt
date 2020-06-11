@@ -1,32 +1,37 @@
 package com.nfragiskatos.fragmessenger.chatlog
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.nfragiskatos.fragmessenger.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.nfragiskatos.fragmessenger.databinding.FragmentChatLogBinding
 
 class ChatLogFragment : Fragment() {
+
+    private val TAG = "ChatLogFragment"
+
+    private val viewModel: ChatLogViewModel by lazy {
+        ViewModelProvider(this).get(ChatLogViewModel::class.java)
+    }
+
+    private lateinit var binding: FragmentChatLogBinding
 
     companion object {
         fun newInstance() = ChatLogFragment()
     }
 
-    private lateinit var viewModel: ChatLogViewModel
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chat_log, container, false)
-    }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(ChatLogViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+        binding = FragmentChatLogBinding.inflate(inflater)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
+
+        return binding.root
+    }
 }
