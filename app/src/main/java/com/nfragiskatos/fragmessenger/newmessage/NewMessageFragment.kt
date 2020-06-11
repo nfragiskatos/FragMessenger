@@ -38,7 +38,10 @@ class NewMessageFragment : Fragment() {
         val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
         mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
-        binding.recyclerviewNewMessage.adapter = UserListAdapter()
+        binding.recyclerviewNewMessage.adapter =
+            UserListAdapter(UserListAdapter.OnClickListenerUserList {
+                Log.d(TAG, "Click on user from user list")
+            })
 
         viewModel.logMessage.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it)

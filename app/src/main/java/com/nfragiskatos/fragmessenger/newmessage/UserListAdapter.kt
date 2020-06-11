@@ -9,15 +9,18 @@ import com.nfragiskatos.fragmessenger.databinding.ListViewUserItemBinding
 import com.nfragiskatos.fragmessenger.domain.User
 import com.squareup.picasso.Picasso
 
-class UserListAdapter() : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
+class UserListAdapter(private val onClickListener: OnClickListenerUserList) : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        val item = getItem(position)
-        holder.bind(item)
+        val user = getItem(position)
+        holder.itemView.setOnClickListener {
+            onClickListener.onClick(user)
+        }
+        holder.bind(user)
     }
 
     class UserViewHolder private constructor(val binding: ListViewUserItemBinding) :
@@ -38,6 +41,10 @@ class UserListAdapter() : ListAdapter<User, UserListAdapter.UserViewHolder>(Diff
                 return UserViewHolder(binding)
             }
         }
+    }
+
+    class OnClickListenerUserList(val clickListener: (user: User) -> Unit) {
+        fun onClick(user: User) = clickListener(user)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<User>() {
