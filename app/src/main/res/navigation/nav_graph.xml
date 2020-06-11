@@ -9,7 +9,7 @@
         android:id="@+id/RegisterFragment"
         android:name="com.nfragiskatos.fragmessenger.register.RegisterFragment"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_fragmentRegister_to_logInFragment"
             app:destination="@id/logInFragment" />
@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/logInFragment"
         android:name="com.nfragiskatos.fragmessenger.login.LogInFragment"
-        android:label="LogInFragment" >
+        android:label="LogInFragment">
         <action
             android:id="@+id/action_logInFragment_to_latestMessagesFragment"
             app:destination="@id/latestMessagesFragment" />
@@ -28,12 +28,12 @@
     <fragment
         android:id="@+id/latestMessagesFragment"
         android:name="com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment"
-        android:label="LatestMessagesFragment" >
+        android:label="LatestMessagesFragment">
         <action
             android:id="@+id/action_latestMessagesFragment_to_RegisterFragment"
             app:destination="@id/RegisterFragment"
             app:popUpTo="@+id/latestMessagesFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_latestMessagesFragment_to_newMessageFragment"
             app:destination="@id/newMessageFragment" />
@@ -41,5 +41,17 @@
     <fragment
         android:id="@+id/newMessageFragment"
         android:name="com.nfragiskatos.fragmessenger.newmessage.NewMessageFragment"
-        android:label="NewMessageFragment" />
+        android:label="NewMessageFragment">
+        <action
+            android:id="@+id/action_newMessageFragment_to_chatLogFragment"
+            app:destination="@id/chatLogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/chatLogFragment"
+        android:name="com.nfragiskatos.fragmessenger.chatlog.ChatLogFragment"
+        android:label="ChatLogFragment">
+        <argument
+            android:name="user"
+            app:argType="com.nfragiskatos.fragmessenger.domain.User" />
+    </fragment>
 </navigation>
