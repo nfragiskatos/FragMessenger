@@ -44,7 +44,9 @@
         android:label="NewMessageFragment">
         <action
             android:id="@+id/action_newMessageFragment_to_chatLogFragment"
-            app:destination="@id/chatLogFragment" />
+            app:destination="@id/chatLogFragment"
+            app:popUpTo="@id/latestMessagesFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/chatLogFragment"
