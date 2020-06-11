@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentNewMessageBinding
@@ -39,8 +40,8 @@ class NewMessageFragment : Fragment() {
         mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
         binding.recyclerviewNewMessage.adapter =
-            UserListAdapter(UserListAdapter.OnClickListenerUserList {
-                Log.d(TAG, "Click on user from user list")
+            UserListAdapter(UserListAdapter.OnClickListenerUserList {user ->
+                viewModel.displayChatLogScreen(user)
             })
 
         viewModel.logMessage.observe(viewLifecycleOwner, Observer {
@@ -50,6 +51,15 @@ class NewMessageFragment : Fragment() {
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
+        })
+
+        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
+            if (user != null) {
+                this.findNavController().navigate(
+                    NewMessageFragmentDirections.actionNewMessageFragmentToChatLogFragment(user)
+                )
+                viewModel.displayChatLogScreenCompleted()
+            }
         })
 
         viewModel.fetchUsers()

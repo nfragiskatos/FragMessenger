@@ -12,6 +12,18 @@ import com.nfragiskatos.fragmessenger.domain.User
 
 class NewMessageViewModel : ViewModel() {
 
+    private val _navigateToChatLogScreen = MutableLiveData<User>()
+    val navigateToChatLogScreen: LiveData<User>
+        get() = _navigateToChatLogScreen
+
+    fun displayChatLogScreen(user: User) {
+        _navigateToChatLogScreen.value = user
+    }
+
+    fun displayChatLogScreenCompleted() {
+        _navigateToChatLogScreen.value = null
+    }
+
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>>
         get() = _users
