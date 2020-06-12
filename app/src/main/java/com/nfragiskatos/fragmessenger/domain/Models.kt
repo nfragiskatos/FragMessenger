@@ -11,3 +11,14 @@ import kotlinx.android.parcel.Parcelize
 data class User(val uid: String, val username: String, val profileImageUrl: String) : Parcelable {
     constructor() : this("", "", "")
 }
+
+sealed class ChatMessageItem {
+
+    data class FromMessage(val messageContent: String) {
+
+    }
+
+    data class ToMessage(val messageContent: String) {
+
+    }
+}
