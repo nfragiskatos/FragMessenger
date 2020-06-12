@@ -40,7 +40,10 @@ class ChatLogFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.recyclerviewChatHistoryChatLog.adapter = MessageListAdapter()
 
+
+        viewModel.getData()
         return binding.root
     }
 }
