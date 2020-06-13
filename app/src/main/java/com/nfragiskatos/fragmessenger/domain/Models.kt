@@ -12,13 +12,5 @@ data class User(val uid: String, val username: String, val profileImageUrl: Stri
     constructor() : this("", "", "")
 }
 
-sealed class ChatMessageItem {
+data class ChatMessage(/*val user: User, */val text: String)
 
-    data class FromMessage(val messageContent: String) {
-
-    }
-
-    data class ToMessage(val messageContent: String) {
-
-    }
-}
