@@ -10,9 +10,23 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
 
     val contact = _contact
 
+    val newMessage = MutableLiveData<String>()
+
     private val _chatMessages = MutableLiveData<List<ChatMessageItem>>()
     val chatMessages: LiveData<List<ChatMessageItem>>
         get() = _chatMessages
+
+    private val _notification = MutableLiveData<String>()
+    val notification: LiveData<String>
+        get() = _notification
+
+    private val _logMessage = MutableLiveData<String>()
+    val logMessage: LiveData<String>
+        get() = _logMessage
+
+    fun sendMessage() {
+        _notification.value = "New message to send: ${newMessage.value}"
+    }
 
     fun getData() {
         val data = ArrayList<ChatMessageItem>()
