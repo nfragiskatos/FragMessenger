@@ -9,6 +9,6 @@ class ChatLogViewModelFactory(private val contact: User) : ViewModelProvider.Fac
         if (modelClass.isAssignableFrom(ChatLogViewModel::class.java)) {
             return ChatLogViewModel(contact) as T
         }
-        throw IllegalArgumentException("Unknow ViewModel class")
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
