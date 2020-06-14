@@ -30,7 +30,8 @@ class ChatLogFragment : Fragment() {
         val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
         val user = ChatLogFragmentArgs.fromBundle(requireArguments()).user
         val chatLogViewModelFactory = ChatLogViewModelFactory(user)
-        val viewModel = ViewModelProvider(this, chatLogViewModelFactory).get(ChatLogViewModel::class.java)
+        val viewModel =
+            ViewModelProvider(this, chatLogViewModelFactory).get(ChatLogViewModel::class.java)
 
         mainViewModel?.updateActionBarTitle(viewModel.contact.username)
         binding = FragmentChatLogBinding.inflate(inflater)
@@ -41,6 +42,10 @@ class ChatLogFragment : Fragment() {
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
+        })
+
+        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, it)
         })
 
         viewModel.getData()
