@@ -12,5 +12,11 @@ data class User(val uid: String, val username: String, val profileImageUrl: Stri
     constructor() : this("", "", "")
 }
 
-data class ChatMessage(/*val user: User, */val text: String)
+data class ChatMessage(
+    val id: String,
+    val text: String,
+    val fromId: String,
+    val toId: String,
+    val timestamp: Long
+)
 
