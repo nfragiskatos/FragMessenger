@@ -14,10 +14,6 @@ class ChatLogFragment : Fragment() {
 
     private val TAG = "ChatLogFragment"
 
-    private val viewModel: ChatLogViewModel by lazy {
-        ViewModelProvider(this).get(ChatLogViewModel::class.java)
-    }
-
     private lateinit var binding: FragmentChatLogBinding
 
     companion object {
@@ -35,6 +31,11 @@ class ChatLogFragment : Fragment() {
         val user = ChatLogFragmentArgs.fromBundle(requireArguments()).user
 
         Log.d(TAG, "New user: ${user.username}")
+
+        val chatLogViewModelFactory = ChatLogViewModelFactory(user)
+        val viewModel = ViewModelProvider(this, chatLogViewModelFactory).get(ChatLogViewModel::class.java)
+
+        mainViewModel?.updateActionBarTitle(viewModel.contact.username)
 
         binding = FragmentChatLogBinding.inflate(inflater)
         binding.lifecycleOwner = this
