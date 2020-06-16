@@ -11,6 +11,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment
 
 class ChatLogViewModel(_contact: User) : ViewModel() {
 
@@ -77,7 +78,8 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                 message?.let { msg ->
                     log(msg.text)
                     if (message.fromId == Firebase.auth.uid) {
-                        _chatMessages.value?.add(ChatMessageItem.FromMessage(msg))
+                        val currentUser = LatestMessagesFragment.currentUser ?: return
+                        _chatMessages.value?.add(ChatMessageItem.FromMessage(msg, currentUser))
                     } else {
                         _chatMessages.value?.add(ChatMessageItem.ToMessage(msg, contact))
                     }
