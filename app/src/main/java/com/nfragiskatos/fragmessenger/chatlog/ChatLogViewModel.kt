@@ -73,18 +73,15 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                _logMessage.value = "Children Count: ${p0.childrenCount}"
-                _logMessage.value = "My count: ${count++}"
                 val message = p0.getValue(ChatMessage::class.java)
                 message?.let { msg ->
                     log(msg.text)
                     if (message.fromId == Firebase.auth.uid) {
-                        _chatMessages.value?.add(ChatMessageItem.ToMessage(msg))
-                        _chatMessages.value = _chatMessages.value
-                    } else {
                         _chatMessages.value?.add(ChatMessageItem.FromMessage(msg))
-                        _chatMessages.value = _chatMessages.value
+                    } else {
+                        _chatMessages.value?.add(ChatMessageItem.ToMessage(msg))
                     }
+                    _chatMessages.value = _chatMessages.value
                 }
             }
 
