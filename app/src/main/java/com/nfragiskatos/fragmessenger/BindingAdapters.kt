@@ -21,4 +21,5 @@ fun bindChatMessageRecyclerView(
 ) {
     val adapter = recyclerView.adapter as MessageListAdapter
     adapter.submitList(data)
+    adapter.notifyDataSetChanged()
 }
