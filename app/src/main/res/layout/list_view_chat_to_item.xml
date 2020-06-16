@@ -20,11 +20,13 @@
             app:layout_constraintEnd_toStartOf="@+id/image_profile_chat_to_item"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_profile_chat_to_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:civ_border_width="2dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:civ_border_color="@color/colorAccent"
             app:layout_constraintTop_toTopOf="@+id/text_message_chat_to_item"
             app:srcCompat="@android:drawable/btn_star_big_on"
             tools:layout_editor_absoluteX="361dp" />
