@@ -48,6 +48,8 @@ class MessageListAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatMessageItem.FromMessage) {
             binding.textMessageChatFromItem.text = message.message.text
+
+            Picasso.get().load(message.user.profileImageUrl).into(binding.imageProfileChatFromItem)
         }
 
         companion object {
@@ -102,7 +104,7 @@ class MessageListAdapter :
 
 sealed class ChatMessageItem {
 
-    data class FromMessage(val message: ChatMessage) : ChatMessageItem() {
+    data class FromMessage(val message: ChatMessage, val user: User) : ChatMessageItem() {
 
     }
 
