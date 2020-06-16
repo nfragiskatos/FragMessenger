@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewChatFromItemBinding
 import com.nfragiskatos.fragmessenger.databinding.ListViewChatToItemBinding
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
+import com.nfragiskatos.fragmessenger.domain.User
+import com.squareup.picasso.Picasso
 
 private const val MESSAGE_VIEW_TYPE_FROM = 0;
 private const val MESSAGE_VIEW_TYPE_TO = 1;
@@ -64,6 +66,9 @@ class MessageListAdapter :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatMessageItem.ToMessage) {
             binding.textMessageChatToItem.text = message.message.text
+
+            // load user image into
+            Picasso.get().load(message.user.profileImageUrl).into(binding.imageProfileChatToItem)
         }
 
         companion object {
@@ -101,7 +106,7 @@ sealed class ChatMessageItem {
 
     }
 
-    data class ToMessage(val message: ChatMessage) : ChatMessageItem() {
+    data class ToMessage(val message: ChatMessage, val user: User) : ChatMessageItem() {
 
     }
 }
