@@ -79,7 +79,7 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                     if (message.fromId == Firebase.auth.uid) {
                         _chatMessages.value?.add(ChatMessageItem.FromMessage(msg))
                     } else {
-                        _chatMessages.value?.add(ChatMessageItem.ToMessage(msg))
+                        _chatMessages.value?.add(ChatMessageItem.ToMessage(msg, contact))
                     }
                     _chatMessages.value = _chatMessages.value
                 }
