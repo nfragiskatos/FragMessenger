@@ -48,7 +48,7 @@ class ChatLogFragment : Fragment() {
             Log.d(TAG, it)
         })
 
-        viewModel.getData()
+        viewModel.listenForMessages()
         return binding.root
     }
 }
