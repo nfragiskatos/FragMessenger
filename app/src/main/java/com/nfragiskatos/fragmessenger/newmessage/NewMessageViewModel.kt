@@ -37,19 +37,19 @@ class NewMessageViewModel : ViewModel() {
         get() = _logMessage
 
     fun fetchUsers() {
-        val ref = Firebase.database.getReference("/users")
-        ref.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                _logMessage.value = "User fetch cancelled"
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                val map = p0.children.map {
-                    it.getValue(User::class.java)
+        val ref = Firebase.database.getReference("/users").apply {
+            addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError) {
+                    _logMessage.value = "User fetch cancelled"
                 }
-                _users.value = map as List<User>
-            }
-        })
 
+                override fun onDataChange(p0: DataSnapshot) {
+                    val map = p0.children.map {
+                        it.getValue(User::class.java)
+                    }
+                    _users.value = map as List<User>
+                }
+            })
+        }
     }
 }
