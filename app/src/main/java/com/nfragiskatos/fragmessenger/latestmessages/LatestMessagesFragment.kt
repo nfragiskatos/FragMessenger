@@ -8,10 +8,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentLatestMessagesBinding
+import com.nfragiskatos.fragmessenger.domain.User
 
 class LatestMessagesFragment : Fragment() {
 
@@ -25,6 +30,7 @@ class LatestMessagesFragment : Fragment() {
 
     companion object {
         fun newInstance() = LatestMessagesFragment()
+        var currentUser: User? = null
     }
 
     override fun onCreateView(
@@ -42,6 +48,8 @@ class LatestMessagesFragment : Fragment() {
                 Log.d(TAG, "${it.currentUser?.email} is already signed in")
             }
         }
+
+        fetchCurrentUser()
 
         viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
@@ -61,6 +69,21 @@ class LatestMessagesFragment : Fragment() {
 
         initActionBarTitle()
         return binding.root
+    }
+
+    private fun fetchCurrentUser() {
+        val uid = Firebase.auth.uid
+        val ref = Firebase.database.getReference("/users/$uid")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                currentUser = p0.getValue(User::class.java)
+                Log.d(TAG, "Current User: ${currentUser?.username}")
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
