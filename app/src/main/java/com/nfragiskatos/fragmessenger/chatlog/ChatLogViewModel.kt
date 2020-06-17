@@ -16,8 +16,14 @@ import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment
 class ChatLogViewModel(_contact: User) : ViewModel() {
 
     val contact = _contact
-
     val newMessage = MutableLiveData<String>()
+    private val _messageAdded = MutableLiveData<Boolean>()
+    val messageAdded: LiveData<Boolean>
+        get() = _messageAdded
+
+    fun messageAddedComplete() {
+        _messageAdded.value = false
+    }
 
     private val _chatMessages = MutableLiveData<MutableList<ChatMessageItem>>(mutableListOf())
     val chatMessages: LiveData<MutableList<ChatMessageItem>>
@@ -40,25 +46,33 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
     }
 
     fun sendMessage() {
-        val ref = Firebase.database.getReference("/messages").push()
         val fromId = Firebase.auth.uid
         val toId = contact.uid
+        val fromRef = Firebase.database.getReference("/user-messages/$fromId/$toId").push()
+        val toRef = Firebase.database.getReference("/user-messages/$toId/$fromId").push()
 
         if (fromId == null) return
 
         newMessage.value?.let {
             val message =
-                ChatMessage(ref.key!!, it, fromId, toId, System.currentTimeMillis() / 1000)
-            ref.setValue(message)
+                ChatMessage(fromRef.key!!, it, fromId, toId, System.currentTimeMillis() / 1000)
+            fromRef.setValue(message)
                 .addOnSuccessListener {
-                    log("Saved our chat message: ${ref.key}")
+                    log("Saved our chat message: ${fromRef.key}")
+                }
+            toRef.setValue(message)
+                .addOnSuccessListener {
+                    log("Saved to reference chat message: ${toRef.key}")
                 }
         }
         newMessage.value = ""
+        _messageAdded.value = true
     }
 
     fun listenForMessages() {
-        val ref = Firebase.database.getReference("/messages")
+        val fromId = Firebase.auth.uid
+        val toId = contact.uid
+        val ref = Firebase.database.getReference("/user-messages/$fromId/$toId")
         ref.addChildEventListener(object : ChildEventListener {
             var count = 0;
             override fun onCancelled(p0: DatabaseError) {
@@ -84,6 +98,7 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                         _chatMessages.value?.add(ChatMessageItem.ToMessage(msg, contact))
                     }
                     _chatMessages.value = _chatMessages.value
+                    _messageAdded.value = true
                 }
             }
 
