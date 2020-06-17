@@ -48,6 +48,13 @@ class ChatLogFragment : Fragment() {
             Log.d(TAG, it)
         })
 
+        viewModel.messageAdded.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                binding.recyclerviewChatHistoryChatLog.scrollToPosition((binding.recyclerviewChatHistoryChatLog.adapter as MessageListAdapter).itemCount - 1)
+                viewModel.messageAddedComplete()
+            }
+        })
+
         viewModel.listenForMessages()
         return binding.root
     }
