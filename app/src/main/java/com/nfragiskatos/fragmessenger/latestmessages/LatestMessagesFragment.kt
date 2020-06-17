@@ -53,7 +53,14 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToRegisterFragment())
+                Log.d(TAG, findNavController().currentDestination?.toString())
+                if (findNavController().currentDestination?.id == R.id.latestMessagesFragment) {
+                    Log.d(TAG, "LOG OUT SUCCESS")
+                    findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToRegisterFragment())
+                    viewModel.displayRegisterScreenComplete()
+                } else {
+                    Log.d(TAG, "FAILED LOGOUT")
+                }
                 viewModel.displayRegisterScreenComplete()
             }
         })
@@ -74,7 +81,7 @@ class LatestMessagesFragment : Fragment() {
     private fun fetchCurrentUser() {
         val uid = Firebase.auth.uid
         val ref = Firebase.database.getReference("/users/$uid")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -99,7 +106,12 @@ class LatestMessagesFragment : Fragment() {
             }
             R.id.menu_sign_out -> {
                 Log.d(TAG, "Signing out...")
-                Firebase.auth.signOut()
+
+                // TODO uncomment
+//                Firebase.auth.signOut()
+
+                // TODO remove this.
+                viewModel.displayRegisterScreen()
             }
         }
 
