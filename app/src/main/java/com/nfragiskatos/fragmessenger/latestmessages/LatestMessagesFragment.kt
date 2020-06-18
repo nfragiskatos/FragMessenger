@@ -3,6 +3,7 @@ package com.nfragiskatos.fragmessenger.latestmessages
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -74,8 +75,26 @@ class LatestMessagesFragment : Fragment() {
 
         setHasOptionsMenu(true)
 
+        binding.recyclerviewMessagesLatestMessages.adapter =
+            LatestMessagesListAdapter(LatestMessagesListAdapter.OnClickListenerLatestMessages {
+                Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT)
+                    .show()
+            })
+
+        (binding.recyclerviewMessagesLatestMessages.adapter as LatestMessagesListAdapter).submitList(getDummyData())
         initActionBarTitle()
         return binding.root
+    }
+
+    fun getDummyData() : List<String> {
+        val ret = ArrayList<String>()
+        ret.add("1")
+        ret.add("2")
+        ret.add("3")
+        ret.add("4")
+        ret.add("5")
+
+        return ret
     }
 
     private fun fetchCurrentUser() {
