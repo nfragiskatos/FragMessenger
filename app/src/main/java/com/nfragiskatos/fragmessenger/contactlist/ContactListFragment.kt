@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.newmessage
+package com.nfragiskatos.fragmessenger.contactlist
 
 import android.os.Bundle
 import android.util.Log

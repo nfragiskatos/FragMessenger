@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.chatlog.ChatLogMessageItem
 import com.nfragiskatos.fragmessenger.chatlog.ChatLogListAdapter
 import com.nfragiskatos.fragmessenger.domain.User
-import com.nfragiskatos.fragmessenger.newmessage.UserListAdapter
+import com.nfragiskatos.fragmessenger.contactlist.UserListAdapter
 
 
 @BindingAdapter("userListData")
