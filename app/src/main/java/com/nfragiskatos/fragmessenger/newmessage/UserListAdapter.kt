@@ -23,7 +23,7 @@ class UserListAdapter(private val onClickListener: OnClickListenerUserList) : Li
         holder.bind(user)
     }
 
-    class UserViewHolder private constructor(val binding: ListViewUserItemBinding) :
+    class UserViewHolder private constructor(private val binding: ListViewUserItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.textViewUserName.text = user.username
