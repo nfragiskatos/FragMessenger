@@ -15,23 +15,23 @@ private const val MESSAGE_VIEW_TYPE_FROM = 0;
 private const val MESSAGE_VIEW_TYPE_TO = 1;
 
 class ChatLogListAdapter :
-    ListAdapter<ChatMessageItem, RecyclerView.ViewHolder>(DiffCallback) {
+    ListAdapter<ChatLogMessageItem, RecyclerView.ViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            MESSAGE_VIEW_TYPE_FROM -> ChatFromViewHolder.from(parent)
-            MESSAGE_VIEW_TYPE_TO -> ChatToViewHolder.from(parent)
+            MESSAGE_VIEW_TYPE_FROM -> FromMessageViewHolder.from(parent)
+            MESSAGE_VIEW_TYPE_TO -> ToMessageViewHolder.from(parent)
             else -> throw ClassCastException("Unknown viewType: $viewType")
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is ChatFromViewHolder -> {
-                val item = getItem(position) as ChatMessageItem.FromMessage
+            is FromMessageViewHolder -> {
+                val item = getItem(position) as ChatLogMessageItem.FromMessageItem
                 holder.bind(item)
             }
-            is ChatToViewHolder -> {
-                val item = getItem(position) as ChatMessageItem.ToMessage
+            is ToMessageViewHolder -> {
+                val item = getItem(position) as ChatLogMessageItem.ToMessageItem
                 holder.bind(item)
             }
         }
@@ -39,34 +39,34 @@ class ChatLogListAdapter :
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is ChatMessageItem.FromMessage -> MESSAGE_VIEW_TYPE_FROM
-            is ChatMessageItem.ToMessage -> MESSAGE_VIEW_TYPE_TO
+            is ChatLogMessageItem.FromMessageItem -> MESSAGE_VIEW_TYPE_FROM
+            is ChatLogMessageItem.ToMessageItem -> MESSAGE_VIEW_TYPE_TO
         }
     }
 
-    class ChatFromViewHolder private constructor(val binding: ListViewChatFromItemBinding) :
+    class FromMessageViewHolder private constructor(val binding: ListViewChatFromItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: ChatMessageItem.FromMessage) {
+        fun bind(message: ChatLogMessageItem.FromMessageItem) {
             binding.textMessageChatFromItem.text = message.message.text
 
             Picasso.get().load(message.user.profileImageUrl).into(binding.imageProfileChatFromItem)
         }
 
         companion object {
-            fun from(parent: ViewGroup): ChatFromViewHolder {
+            fun from(parent: ViewGroup): FromMessageViewHolder {
                 val binding = ListViewChatFromItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return ChatFromViewHolder(binding)
+                return FromMessageViewHolder(binding)
             }
         }
     }
 
-    class ChatToViewHolder private constructor(val binding: ListViewChatToItemBinding) :
+    class ToMessageViewHolder private constructor(val binding: ListViewChatToItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: ChatMessageItem.ToMessage) {
+        fun bind(message: ChatLogMessageItem.ToMessageItem) {
             binding.textMessageChatToItem.text = message.message.text
 
             // load user image into
@@ -74,41 +74,41 @@ class ChatLogListAdapter :
         }
 
         companion object {
-            fun from(parent: ViewGroup): ChatToViewHolder {
+            fun from(parent: ViewGroup): ToMessageViewHolder {
                 val binding = ListViewChatToItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
                 )
-                return ChatToViewHolder(binding)
+                return ToMessageViewHolder(binding)
             }
         }
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ChatMessageItem>() {
+    companion object DiffCallback : DiffUtil.ItemCallback<ChatLogMessageItem>() {
         override fun areItemsTheSame(
-            oldItem: ChatMessageItem,
-            newItem: ChatMessageItem
+            oldItem: ChatLogMessageItem,
+            newItem: ChatLogMessageItem
         ): Boolean {
             return oldItem === newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: ChatMessageItem,
-            newItem: ChatMessageItem
+            oldItem: ChatLogMessageItem,
+            newItem: ChatLogMessageItem
         ): Boolean {
             return oldItem == newItem
         }
     }
 }
 
-sealed class ChatMessageItem {
+sealed class ChatLogMessageItem {
 
-    data class FromMessage(val message: ChatMessage, val user: User) : ChatMessageItem() {
+    data class FromMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem() {
 
     }
 
-    data class ToMessage(val message: ChatMessage, val user: User) : ChatMessageItem() {
+    data class ToMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem() {
 
     }
 }

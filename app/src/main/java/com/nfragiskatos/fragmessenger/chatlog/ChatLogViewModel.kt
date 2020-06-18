@@ -25,8 +25,8 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
         _messageAdded.value = false
     }
 
-    private val _chatMessages = MutableLiveData<MutableList<ChatMessageItem>>(mutableListOf())
-    val chatMessages: LiveData<MutableList<ChatMessageItem>>
+    private val _chatMessages = MutableLiveData<MutableList<ChatLogMessageItem>>(mutableListOf())
+    val chatMessages: LiveData<MutableList<ChatLogMessageItem>>
         get() = _chatMessages
 
     private val _notification = MutableLiveData<String>()
@@ -93,9 +93,9 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                     log(msg.text)
                     if (message.fromId == Firebase.auth.uid) {
                         val currentUser = LatestMessagesFragment.currentUser ?: return
-                        _chatMessages.value?.add(ChatMessageItem.FromMessage(msg, currentUser))
+                        _chatMessages.value?.add(ChatLogMessageItem.FromMessageItem(msg, currentUser))
                     } else {
-                        _chatMessages.value?.add(ChatMessageItem.ToMessage(msg, contact))
+                        _chatMessages.value?.add(ChatLogMessageItem.ToMessageItem(msg, contact))
                     }
                     _chatMessages.value = _chatMessages.value
                     _messageAdded.value = true
