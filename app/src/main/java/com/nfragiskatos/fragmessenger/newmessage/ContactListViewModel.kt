@@ -10,7 +10,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.domain.User
 
-class NewMessageViewModel : ViewModel() {
+class ContactListViewModel : ViewModel() {
 
     private val _navigateToChatLogScreen = MutableLiveData<User>()
     val navigateToChatLogScreen: LiveData<User>

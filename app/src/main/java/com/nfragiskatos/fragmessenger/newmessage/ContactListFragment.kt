@@ -12,27 +12,27 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
-import com.nfragiskatos.fragmessenger.databinding.FragmentNewMessageBinding
+import com.nfragiskatos.fragmessenger.databinding.FragmentContactListBinding
 
-class NewMessageFragment : Fragment() {
+class ContactListFragment : Fragment() {
 
     private val TAG = "NewMessageFragment"
 
-    private val viewModel: NewMessageViewModel by lazy {
-        ViewModelProvider(this).get(NewMessageViewModel::class.java)
+    private val viewModel: ContactListViewModel by lazy {
+        ViewModelProvider(this).get(ContactListViewModel::class.java)
     }
 
-    private lateinit var binding: FragmentNewMessageBinding
+    private lateinit var binding: FragmentContactListBinding
 
     companion object {
-        fun newInstance() = NewMessageFragment()
+        fun newInstance() = ContactListFragment()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentNewMessageBinding.inflate(inflater)
+        binding = FragmentContactListBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -56,7 +56,7 @@ class NewMessageFragment : Fragment() {
         viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
                 this.findNavController().navigate(
-                    NewMessageFragmentDirections.actionNewMessageFragmentToChatLogFragment(user)
+                    ContactListFragmentDirections.actionContactListFragmentToChatLogFragment(user)
                 )
                 viewModel.displayChatLogScreenCompleted()
             }

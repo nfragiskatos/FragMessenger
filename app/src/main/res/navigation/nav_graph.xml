@@ -35,15 +35,15 @@
             app:popUpTo="@+id/latestMessagesFragment"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_latestMessagesFragment_to_newMessageFragment"
-            app:destination="@id/newMessageFragment" />
+            android:id="@+id/action_latestMessagesFragment_to_contactListFragment"
+            app:destination="@id/contactListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/newMessageFragment"
-        android:name="com.nfragiskatos.fragmessenger.newmessage.NewMessageFragment"
-        android:label="NewMessageFragment">
+        android:id="@+id/contactListFragment"
+        android:name="com.nfragiskatos.fragmessenger.newmessage.ContactListFragment"
+        android:label="ContactListFragment">
         <action
-            android:id="@+id/action_newMessageFragment_to_chatLogFragment"
+            android:id="@+id/action_contactListFragment_to_chatLogFragment"
             app:destination="@id/chatLogFragment"
             app:popUpTo="@id/latestMessagesFragment"
             app:popUpToInclusive="false" />

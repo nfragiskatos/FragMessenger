@@ -68,7 +68,7 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToNewMessageFragment())
+                findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToContactListFragment())
                 viewModel.displayNewMessageScreenComplete()
             }
         })
