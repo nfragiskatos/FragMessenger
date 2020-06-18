@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso
 private const val MESSAGE_VIEW_TYPE_FROM = 0;
 private const val MESSAGE_VIEW_TYPE_TO = 1;
 
-class MessageListAdapter :
+class ChatLogListAdapter :
     ListAdapter<ChatMessageItem, RecyclerView.ViewHolder>(DiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {

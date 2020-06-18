@@ -37,7 +37,7 @@ class ChatLogFragment : Fragment() {
         binding = FragmentChatLogBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
-        binding.recyclerviewChatHistoryChatLog.adapter = MessageListAdapter()
+        binding.recyclerviewChatHistoryChatLog.adapter = ChatLogListAdapter()
 
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
@@ -50,7 +50,7 @@ class ChatLogFragment : Fragment() {
 
         viewModel.messageAdded.observe(viewLifecycleOwner, Observer {
             if (it) {
-                binding.recyclerviewChatHistoryChatLog.scrollToPosition((binding.recyclerviewChatHistoryChatLog.adapter as MessageListAdapter).itemCount - 1)
+                binding.recyclerviewChatHistoryChatLog.scrollToPosition((binding.recyclerviewChatHistoryChatLog.adapter as ChatLogListAdapter).itemCount - 1)
                 viewModel.messageAddedComplete()
             }
         })

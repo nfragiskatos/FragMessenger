@@ -3,7 +3,7 @@ package com.nfragiskatos.fragmessenger
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.chatlog.ChatMessageItem
-import com.nfragiskatos.fragmessenger.chatlog.MessageListAdapter
+import com.nfragiskatos.fragmessenger.chatlog.ChatLogListAdapter
 import com.nfragiskatos.fragmessenger.domain.User
 import com.nfragiskatos.fragmessenger.newmessage.UserListAdapter
 
@@ -19,7 +19,7 @@ fun bindChatMessageRecyclerView(
     recyclerView: RecyclerView,
     data: List<ChatMessageItem>?
 ) {
-    val adapter = recyclerView.adapter as MessageListAdapter
+    val adapter = recyclerView.adapter as ChatLogListAdapter
     adapter.submitList(data)
     adapter.notifyDataSetChanged()
 }
