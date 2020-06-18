@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nfragiskatos.fragmessenger.databinding.ListviewChatLogFromMessageItemBinding
-import com.nfragiskatos.fragmessenger.databinding.ListviewChatLogToMessageItemBinding
+import com.nfragiskatos.fragmessenger.databinding.*
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.User
 import com.squareup.picasso.Picasso
@@ -44,7 +43,7 @@ class ChatLogListAdapter :
         }
     }
 
-    class FromMessageViewHolder private constructor(private val binding: ListviewChatLogFromMessageItemBinding) :
+    class FromMessageViewHolder private constructor(private val binding: ListViewChatLogFromMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatLogMessageItem.FromMessageItem) {
             binding.textMessageChatFromItem.text = message.message.text
@@ -54,7 +53,7 @@ class ChatLogListAdapter :
 
         companion object {
             fun from(parent: ViewGroup): FromMessageViewHolder {
-                val binding = ListviewChatLogFromMessageItemBinding.inflate(
+                val binding = ListViewChatLogFromMessageItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -64,7 +63,7 @@ class ChatLogListAdapter :
         }
     }
 
-    class ToMessageViewHolder private constructor(private val binding: ListviewChatLogToMessageItemBinding) :
+    class ToMessageViewHolder private constructor(private val binding: ListViewChatLogToMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(message: ChatLogMessageItem.ToMessageItem) {
             binding.textMessageChatToItem.text = message.message.text
@@ -75,7 +74,7 @@ class ChatLogListAdapter :
 
         companion object {
             fun from(parent: ViewGroup): ToMessageViewHolder {
-                val binding = ListviewChatLogToMessageItemBinding.inflate(
+                val binding = ListViewChatLogToMessageItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
