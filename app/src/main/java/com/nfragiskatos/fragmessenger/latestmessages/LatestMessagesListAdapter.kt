@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessagesItemBinding
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
 
-class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLatestMessages): androidx.recyclerview.widget.ListAdapter<String, LatestMessagesListAdapter.LatestMessageViewHolder>(DiffCallback) {
+class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLatestMessages) :
+    androidx.recyclerview.widget.ListAdapter<String, LatestMessagesListAdapter.LatestMessageViewHolder>(
+        DiffCallback
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LatestMessageViewHolder {
         return LatestMessageViewHolder.from(parent)
@@ -17,13 +19,14 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
     override fun onBindViewHolder(holder: LatestMessageViewHolder, position: Int) {
         val item = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick("CLICKED: $item" )
+            onClickListener.onClick("CLICKED: $item")
         }
         holder.bind(item)
     }
 
 
-    class LatestMessageViewHolder private constructor(val binding: ListViewLatestMessagesItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class LatestMessageViewHolder private constructor(private val binding: ListViewLatestMessageItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(str: String) {
             binding.textViewUsernameLatestMessages.text = str
@@ -31,8 +34,8 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
         }
 
         companion object {
-            fun from(parent: ViewGroup) : LatestMessageViewHolder {
-                val binding = ListViewLatestMessagesItemBinding.inflate(
+            fun from(parent: ViewGroup): LatestMessageViewHolder {
+                val binding = ListViewLatestMessageItemBinding.inflate(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
@@ -54,8 +57,5 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
         override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
             return oldItem == newItem
         }
-
     }
-
-
 }
