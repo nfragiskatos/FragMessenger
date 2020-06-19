@@ -50,6 +50,8 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
         val toId = contact.uid
         val fromRef = Firebase.database.getReference("/user-messages/$fromId/$toId").push()
         val toRef = Firebase.database.getReference("/user-messages/$toId/$fromId").push()
+        val latestMessageFromRef = Firebase.database.getReference("/latest-messages/$fromId/$toId")
+        val latestMessageToRef = Firebase.database.getReference("/latest-messages/$toId/$fromId")
 
         if (fromId == null) return
 
@@ -63,6 +65,14 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
             toRef.setValue(message)
                 .addOnSuccessListener {
                     log("Saved to reference chat message: ${toRef.key}")
+                }
+            latestMessageFromRef.setValue(message)
+                .addOnSuccessListener {
+                    log("Saved to latest message: ${latestMessageFromRef.key}")
+                }
+            latestMessageToRef.setValue(message)
+                .addOnSuccessListener {
+                    log("Saved to latest message: ${latestMessageToRef.key}")
                 }
         }
         newMessage.value = ""
@@ -93,7 +103,12 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                     log(msg.text)
                     if (message.fromId == Firebase.auth.uid) {
                         val currentUser = LatestMessagesFragment.currentUser ?: return
-                        _chatMessages.value?.add(ChatLogMessageItem.FromMessageItem(msg, currentUser))
+                        _chatMessages.value?.add(
+                            ChatLogMessageItem.FromMessageItem(
+                                msg,
+                                currentUser
+                            )
+                        )
                     } else {
                         _chatMessages.value?.add(ChatLogMessageItem.ToMessageItem(msg, contact))
                     }
