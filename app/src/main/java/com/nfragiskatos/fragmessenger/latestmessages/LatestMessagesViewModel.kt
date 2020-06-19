@@ -23,12 +23,24 @@ class LatestMessagesViewModel : ViewModel() {
     val latestMessages: LiveData<MutableList<LatestMessageItem>>
         get() = _latestMessages
 
+    private val _navigateToChatLogScreen = MutableLiveData<User>()
+    val navigateToChatLogScreen: LiveData<User>
+        get() = _navigateToChatLogScreen
+
     fun displayRegisterScreen() {
         _navigateToRegisterScreen.value = true
     }
 
     fun displayRegisterScreenComplete() {
         _navigateToRegisterScreen.value = false
+    }
+
+    fun displayChatLogScreen(user: User) {
+        _navigateToChatLogScreen.value = user
+    }
+
+    fun displayChatLogScreenCompleted() {
+        _navigateToChatLogScreen.value = null
     }
 
     private val _navigateToNewMessageScreen = MutableLiveData<Boolean>()

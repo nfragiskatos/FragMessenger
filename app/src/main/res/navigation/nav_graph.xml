@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_latestMessagesFragment_to_contactListFragment"
             app:destination="@id/contactListFragment" />
+        <action
+            android:id="@+id/action_latestMessagesFragment_to_chatLogFragment"
+            app:destination="@id/chatLogFragment" />
     </fragment>
     <fragment
         android:id="@+id/contactListFragment"

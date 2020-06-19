@@ -78,13 +78,16 @@ class LatestMessagesFragment : Fragment() {
 
         binding.recyclerviewMessagesLatestMessages.adapter =
             LatestMessagesListAdapter(LatestMessagesListAdapter.OnClickListenerLatestMessages {
-                Toast.makeText(context, "CLICKED", Toast.LENGTH_SHORT)
-                    .show()
+                viewModel.displayChatLogScreen(it.user)
             })
 
-        binding.recyclerviewMessagesLatestMessages.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+        binding.recyclerviewMessagesLatestMessages.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
 
-//        (binding.recyclerviewMessagesLatestMessages.adapter as LatestMessagesListAdapter).submitList(getDummyData())
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
@@ -92,6 +95,17 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.logMessage.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it)
+        })
+
+        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
+            if (user != null) {
+                this.findNavController().navigate(
+                    LatestMessagesFragmentDirections.actionLatestMessagesFragmentToChatLogFragment(
+                        user
+                    )
+                )
+                viewModel.displayChatLogScreenCompleted()
+            }
         })
 
         viewModel.listenForLatestMessages()
