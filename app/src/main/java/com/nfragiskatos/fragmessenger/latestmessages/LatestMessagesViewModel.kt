@@ -49,12 +49,24 @@ class LatestMessagesViewModel : ViewModel() {
     val logMessage: LiveData<String>
         get() = _logMessage
 
+    private val latestMessagesMap = HashMap<String, ChatMessage>()
+
     private fun log(message: String) {
         _logMessage.value = message
     }
 
     private fun notify(message: String) {
         _notification.value = message
+    }
+
+    fun refreshLatestMessageList() {
+        latestMessages.value?.let {list ->
+            list.clear()
+            latestMessagesMap.values.forEach {
+                list.add(it)
+            }
+        }
+        _latestMessages.value = latestMessages.value
     }
 
     fun listenForLatestMessages() {
@@ -71,14 +83,17 @@ class LatestMessagesViewModel : ViewModel() {
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                TODO("Not yet implemented")
+                val message = p0.getValue(ChatMessage::class.java) ?: return
+                log(message.text)
+                latestMessagesMap[p0.key!!] = message
+                refreshLatestMessageList()
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 val message = p0.getValue(ChatMessage::class.java) ?: return
                 log(message.text)
-                _latestMessages.value?.add(message)
-                _latestMessages.value = _latestMessages.value
+                latestMessagesMap[p0.key!!] = message
+                refreshLatestMessageList()
 
             }
 
