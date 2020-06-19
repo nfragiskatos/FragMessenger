@@ -81,12 +81,23 @@ class LatestMessagesFragment : Fragment() {
                     .show()
             })
 
-        (binding.recyclerviewMessagesLatestMessages.adapter as LatestMessagesListAdapter).submitList(getDummyData())
+//        (binding.recyclerviewMessagesLatestMessages.adapter as LatestMessagesListAdapter).submitList(getDummyData())
+        viewModel.notification.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(context, it, Toast.LENGTH_SHORT)
+                .show()
+        })
+
+        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+            Log.d(TAG, it)
+        })
+
+        viewModel.listenForLatestMessages()
+
         initActionBarTitle()
         return binding.root
     }
 
-    fun getDummyData() : List<String> {
+    fun getDummyData(): List<String> {
         val ret = ArrayList<String>()
         ret.add("1")
         ret.add("2")

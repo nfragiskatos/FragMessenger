@@ -2,10 +2,12 @@ package com.nfragiskatos.fragmessenger
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nfragiskatos.fragmessenger.chatlog.ChatLogMessageItem
 import com.nfragiskatos.fragmessenger.chatlog.ChatLogListAdapter
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.chatlog.ChatLogMessageItem
 import com.nfragiskatos.fragmessenger.contactlist.UserListAdapter
+import com.nfragiskatos.fragmessenger.domain.ChatMessage
+import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesListAdapter
 
 
 @BindingAdapter("userListData")
@@ -20,6 +22,13 @@ fun bindChatMessageRecyclerView(
     data: List<ChatLogMessageItem>?
 ) {
     val adapter = recyclerView.adapter as ChatLogListAdapter
+    adapter.submitList(data)
+    adapter.notifyDataSetChanged()
+}
+
+@BindingAdapter("latestMessagesData")
+fun bindLatestMessagesRecyclerView(recyclerView: RecyclerView, data: List<ChatMessage>?) {
+    val adapter = recyclerView.adapter as LatestMessagesListAdapter
     adapter.submitList(data)
     adapter.notifyDataSetChanged()
 }
