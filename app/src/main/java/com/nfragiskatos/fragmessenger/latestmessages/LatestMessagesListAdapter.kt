@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
+import com.nfragiskatos.fragmessenger.domain.ChatMessage
 
 class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLatestMessages) :
-    androidx.recyclerview.widget.ListAdapter<String, LatestMessagesListAdapter.LatestMessageViewHolder>(
+    androidx.recyclerview.widget.ListAdapter<ChatMessage, LatestMessagesListAdapter.LatestMessageViewHolder>(
         DiffCallback
     ) {
 
@@ -19,7 +20,7 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
     override fun onBindViewHolder(holder: LatestMessageViewHolder, position: Int) {
         val item = getItem(position)
         holder.itemView.setOnClickListener {
-            onClickListener.onClick("CLICKED: $item")
+            onClickListener.onClick(item)
         }
         holder.bind(item)
     }
@@ -28,9 +29,9 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
     class LatestMessageViewHolder private constructor(private val binding: ListViewLatestMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(str: String) {
-            binding.textViewUsernameLatestMessages.text = str
-            binding.textviewLatestMessageLatestMessages.text = str
+        fun bind(message: ChatMessage) {
+            binding.textViewUsernameLatestMessages.text = message.fromId
+            binding.textviewLatestMessageLatestMessages.text = message.text
         }
 
         companion object {
@@ -45,16 +46,16 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
         }
     }
 
-    class OnClickListenerLatestMessages(val clickListener: (str: String) -> Unit) {
-        fun onClick(str: String) = clickListener(str)
+    class OnClickListenerLatestMessages(val clickListener: (message: ChatMessage) -> Unit) {
+        fun onClick(message: ChatMessage) = clickListener(message)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<String>() {
-        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
+        override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+        override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
             return oldItem == newItem
         }
     }
