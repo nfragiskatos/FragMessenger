@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
+import com.nfragiskatos.fragmessenger.domain.User
+import com.squareup.picasso.Picasso
 
 class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLatestMessages) :
-    androidx.recyclerview.widget.ListAdapter<ChatMessage, LatestMessagesListAdapter.LatestMessageViewHolder>(
+    androidx.recyclerview.widget.ListAdapter<LatestMessageItem, LatestMessagesListAdapter.LatestMessageViewHolder>(
         DiffCallback
     ) {
 
@@ -29,9 +31,10 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
     class LatestMessageViewHolder private constructor(private val binding: ListViewLatestMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(message: ChatMessage) {
-            binding.textViewUsernameLatestMessages.text = message.fromId
-            binding.textviewLatestMessageLatestMessages.text = message.text
+        fun bind(latestMessage: LatestMessageItem) {
+            binding.textViewUsernameLatestMessages.text = latestMessage.user.username
+            binding.textviewLatestMessageLatestMessages.text = latestMessage.message.text
+            Picasso.get().load(latestMessage.user.profileImageUrl).into(binding.imageView)
         }
 
         companion object {
@@ -46,17 +49,25 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
         }
     }
 
-    class OnClickListenerLatestMessages(val clickListener: (message: ChatMessage) -> Unit) {
-        fun onClick(message: ChatMessage) = clickListener(message)
+    class OnClickListenerLatestMessages(val clickListener: (latestMessage: LatestMessageItem) -> Unit) {
+        fun onClick(latestMessage: LatestMessageItem) = clickListener(latestMessage)
     }
 
-    companion object DiffCallback : DiffUtil.ItemCallback<ChatMessage>() {
-        override fun areItemsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+    companion object DiffCallback : DiffUtil.ItemCallback<LatestMessageItem>() {
+        override fun areItemsTheSame(
+            oldItem: LatestMessageItem,
+            newItem: LatestMessageItem
+        ): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: ChatMessage, newItem: ChatMessage): Boolean {
+        override fun areContentsTheSame(
+            oldItem: LatestMessageItem,
+            newItem: LatestMessageItem
+        ): Boolean {
             return oldItem == newItem
         }
     }
 }
+
+data class LatestMessageItem(val message: ChatMessage, val user: User)
