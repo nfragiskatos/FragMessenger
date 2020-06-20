@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentContactListBinding
@@ -40,9 +41,13 @@ class ContactListFragment : Fragment() {
         mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
 
         binding.recyclerviewNewMessage.adapter =
-            UserListAdapter(UserListAdapter.OnClickListenerUserList {user ->
+            UserListAdapter(UserListAdapter.OnClickListenerUserList { user ->
                 viewModel.displayChatLogScreen(user)
             })
+
+        binding.recyclerviewNewMessage.addItemDecoration(
+            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+        )
 
         viewModel.logMessage.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it)
