@@ -14,9 +14,9 @@ FragMessenger is an example app that uses Firebase as the backend to faciliate c
 - [CircleImageView](https://github.com/hdodenhof/CircleImageView) - Images are circular instead of rectangular.
 
 ### Possible Improvements
-- [ ] Move Firebase calls to a repository
+- [x] Move Firebase calls to a repository
 - [ ] Add DI
-- [ ] Use Coroutines instead of all the callbacks
+- [x] Use Coroutines instead of all the callbacks
 
 ## Screenshots
 ### Register Account
