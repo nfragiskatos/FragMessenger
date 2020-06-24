@@ -107,6 +107,7 @@ class RegisterViewModel : ViewModel() {
                 profileImageUrl
             )
             repo.saveUserToDatabase(user, uid, "/users/")
+            _status.value = LogInStatus.DONE
             displayLatestMessagesScreen()
         }
     }

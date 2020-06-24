@@ -133,6 +133,17 @@
             app:layout_constraintStart_toStartOf="@+id/button_register_register"
             app:layout_constraintTop_toBottomOf="@+id/button_register_register" />
 
+        <ImageView
+            android:id="@+id/image_state_log_in"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:logInStatus="@{viewModel.status}" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
