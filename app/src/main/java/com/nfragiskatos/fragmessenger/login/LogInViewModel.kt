@@ -28,8 +28,6 @@ class LogInViewModel : ViewModel() {
     val logMessage: LiveData<String>
         get() = _logMessage
 
-    private val repo = FirebaseRepository()
-
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -49,7 +47,7 @@ class LogInViewModel : ViewModel() {
 
         coroutineScope.launch {
             _status.value = LogInStatus.LOADING
-            val result = repo.performLogIn(email.value!!, password.value!!)
+            val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
             _status.value = LogInStatus.DONE
             if (result != null) {
                 _logMessage.value = "${result.user?.email} successfully logged in"

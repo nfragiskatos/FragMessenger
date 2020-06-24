@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class FirebaseRepository {
+object FirebaseRepository {
 
     suspend fun performLogIn(email: String, password: String): AuthResult? {
         return withContext(Dispatchers.IO) {
@@ -42,7 +42,7 @@ class FirebaseRepository {
         }
     }
 
-    private fun validatePath(nodePath: String) : String {
+    private fun validatePath(nodePath: String): String {
         return if (nodePath[nodePath.lastIndex] == '/') nodePath else "$nodePath/"
     }
 }

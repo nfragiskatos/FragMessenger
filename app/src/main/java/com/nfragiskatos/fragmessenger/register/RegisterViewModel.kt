@@ -44,8 +44,6 @@ class RegisterViewModel : ViewModel() {
     val status: LiveData<LogInStatus>
         get() = _status
 
-    private val repo = FirebaseRepository()
-
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -73,7 +71,7 @@ class RegisterViewModel : ViewModel() {
 
         coroutineScope.launch {
             _status.value = LogInStatus.LOADING
-            val result = repo.performRegistration(email.value!!, password.value!!)
+            val result = FirebaseRepository.performRegistration(email.value!!, password.value!!)
             if (result != null) {
                 _logMessage.value =
                     "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
@@ -90,7 +88,7 @@ class RegisterViewModel : ViewModel() {
         coroutineScope.launch {
             var filename = UUID.randomUUID().toString()
             val uri =
-                repo.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
+                FirebaseRepository.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
             if (uri != null) {
                 saveUserToFirebaseDatabase(uri.toString())
             }
@@ -106,7 +104,7 @@ class RegisterViewModel : ViewModel() {
                 username.value ?: "",
                 profileImageUrl
             )
-            repo.saveUserToDatabase(user, uid, "/users/")
+            FirebaseRepository.saveUserToDatabase(user, uid, "/users/")
             _status.value = LogInStatus.DONE
             displayLatestMessagesScreen()
         }
