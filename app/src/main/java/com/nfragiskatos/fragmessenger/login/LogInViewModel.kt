@@ -3,14 +3,18 @@ package com.nfragiskatos.fragmessenger.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
+import kotlinx.coroutines.*
+
+enum class LogInStatus { LOADING, ERROR, DONE }
 
 class LogInViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
+
+    private val _status = MutableLiveData<LogInStatus>()
+    val status: LiveData<LogInStatus>
+        get() = _status
 
     private val _navigateToLatestMessagesScreen = MutableLiveData<Boolean>()
     val navigateToLatestMessagesScreen: LiveData<Boolean>
@@ -24,7 +28,12 @@ class LogInViewModel : ViewModel() {
     val logMessage: LiveData<String>
         get() = _logMessage
 
-    fun displayLatestMessagesScreen() {
+    private val repo = FirebaseRepository()
+
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    private fun displayLatestMessagesScreen() {
         _navigateToLatestMessagesScreen.value = true
     }
 
@@ -38,32 +47,21 @@ class LogInViewModel : ViewModel() {
             return
         }
 
-        email.value?.let { email ->
-            password.value?.let { password ->
-                Firebase.auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener {
-                        onCompletedLogIn(it)
-                    }.addOnFailureListener {
-                        onFailedLogIn(it)
-                    }
+        coroutineScope.launch {
+            _status.value = LogInStatus.LOADING
+            val result = repo.performLogIn(email.value!!, password.value!!)
+            _status.value = LogInStatus.DONE
+            if (result) {
+                displayLatestMessagesScreen()
+            } else {
+                _notification.value = "Failed to log in user"
+                _logMessage.value = "Failed to log in user"
             }
         }
     }
 
-    private fun onCompletedLogIn(result: Task<AuthResult>) {
-        if (!result.isSuccessful) {
-            _logMessage.value = "Completed with failure: ${result.exception}"
-            return
-        }
-
-        _logMessage.value =
-            "Successfully logged in user with\nuid: ${result.result?.user?.uid}\nemail: ${result.result?.user?.email}"
-        displayLatestMessagesScreen()
+    override fun onCleared() {
+        super.onCleared()
+        coroutineScope.cancel()
     }
-
-    private fun onFailedLogIn(result: Exception) {
-        _notification.value = "Failed to log in user: ${result.message}"
-        _logMessage.value = "Failed to log in user: ${result.message}"
-    }
-
 }
