@@ -51,7 +51,8 @@ class LogInViewModel : ViewModel() {
             _status.value = LogInStatus.LOADING
             val result = repo.performLogIn(email.value!!, password.value!!)
             _status.value = LogInStatus.DONE
-            if (result) {
+            if (result != null) {
+                _logMessage.value = "${result.user?.email} successfully logged in"
                 displayLatestMessagesScreen()
             } else {
                 _notification.value = "Failed to log in user"
