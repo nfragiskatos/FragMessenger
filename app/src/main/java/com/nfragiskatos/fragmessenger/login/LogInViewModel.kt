@@ -48,10 +48,10 @@ class LogInViewModel : ViewModel() {
         coroutineScope.launch {
             _status.value = LogInStatus.LOADING
             val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
-            _status.value = LogInStatus.DONE
             if (result != null) {
                 _logMessage.value = "${result.user?.email} successfully logged in"
                 displayLatestMessagesScreen()
+                _status.value = LogInStatus.DONE
             } else {
                 _notification.value = "Failed to log in user"
                 _logMessage.value = "Failed to log in user"
