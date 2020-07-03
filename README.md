@@ -2,7 +2,7 @@
 A toy app for practicing Android development.
 
 ## FragMessenger
-FragMessenger is an example app that uses Firebase as the backend to faciliate creating accounts and storing + sending messages between users.
+FragMessenger is an example app that uses Firebase as the back end to facilitate creating accounts and storing + sending messages between users.
 
 ### Patterns / Technologies
 - MVVM Architecture
