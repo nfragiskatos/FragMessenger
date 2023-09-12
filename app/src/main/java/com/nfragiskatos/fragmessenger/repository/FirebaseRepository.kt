@@ -14,9 +14,7 @@ import kotlinx.coroutines.withContext
 object FirebaseRepository {
 
     suspend fun performLogIn(email: String, password: String): AuthResult? {
-        return withContext(Dispatchers.IO) {
-            return@withContext Firebase.auth.signInWithEmailAndPassword(email, password).await()
-        }
+        return Firebase.auth.signInWithEmailAndPassword(email, password).await()
     }
 
     suspend fun performRegistration(email: String, password: String): AuthResult? {

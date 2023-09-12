@@ -18,9 +18,9 @@ import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentLogInBinding
 import java.lang.Exception
 
-class LogInFragment : Fragment() {
+private const val TAG = "LogInFragment"
 
-    private val TAG = "LogInFragment"
+class LogInFragment : Fragment() {
 
     private val viewModel: LogInViewModel by lazy {
         ViewModelProvider(this).get(LogInViewModel::class.java)
@@ -59,14 +59,20 @@ class LogInFragment : Fragment() {
         viewModel.status.observe(viewLifecycleOwner, Observer {status ->
             when (status) {
                 LogInStatus.LOADING -> {
-                    binding.buttonLogInLogIn.visibility = View.GONE
-                    binding.textEmailLogIn.visibility = View.GONE
-                    binding.textPasswordLogIn.visibility = View.GONE
+//                    binding.buttonLogInLogIn.visibility = View.GONE
+//                    binding.textEmailLogIn.visibility = View.GONE
+//                    binding.textPasswordLogIn.visibility = View.GONE
+                    binding.textPasswordLogIn.isEnabled = false
+                    binding.textEmailLogIn.isEnabled = false
+                    binding.buttonLogInLogIn.isEnabled = false
                 }
-                LogInStatus.DONE -> {
-                    binding.buttonLogInLogIn.visibility = View.VISIBLE
-                    binding.textEmailLogIn.visibility = View.VISIBLE
-                    binding.textPasswordLogIn.visibility = View.VISIBLE
+                LogInStatus.DONE, LogInStatus.ERROR -> {
+//                    binding.buttonLogInLogIn.visibility = View.VISIBLE
+//                    binding.textEmailLogIn.visibility = View.VISIBLE
+//                    binding.textPasswordLogIn.visibility = View.VISIBLE
+                    binding.buttonLogInLogIn.isEnabled = true
+                    binding.textEmailLogIn.isEnabled = true
+                    binding.textPasswordLogIn.isEnabled = true
                 }
             }
         })

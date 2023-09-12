@@ -27,6 +27,10 @@ class ChatLogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        Log.d(TAG,"ViewModelStore: $viewModelStore")
+
+        defaultViewModelProviderFactory
+
         val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
         val user = ChatLogFragmentArgs.fromBundle(requireArguments()).user
         val chatLogViewModelFactory = ChatLogViewModelFactory(user)

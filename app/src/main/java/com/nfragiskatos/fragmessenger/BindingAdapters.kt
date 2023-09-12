@@ -43,7 +43,7 @@ fun bindLogInStatus(statusImageView: ImageView, status: LogInStatus?) {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.loading_animation)
         }
-        LogInStatus.DONE -> {
+        LogInStatus.DONE, LogInStatus.ERROR -> {
             statusImageView.visibility = View.GONE
         }
     }

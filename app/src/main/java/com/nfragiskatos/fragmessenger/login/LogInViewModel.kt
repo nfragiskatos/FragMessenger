@@ -1,11 +1,17 @@
 package com.nfragiskatos.fragmessenger.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
 import kotlinx.coroutines.*
 
+private const val TAG = "LogInViewModel"
 enum class LogInStatus { LOADING, ERROR, DONE }
 
 class LogInViewModel : ViewModel() {
@@ -28,9 +34,6 @@ class LogInViewModel : ViewModel() {
     val logMessage: LiveData<String>
         get() = _logMessage
 
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     private fun displayLatestMessagesScreen() {
         _navigateToLatestMessagesScreen.value = true
     }
@@ -40,27 +43,36 @@ class LogInViewModel : ViewModel() {
     }
 
     fun performLogIn() {
-        if (email.value == null || password.value == null) {
-            _notification.value = "Please enter text in email and password."
+        if (email.value == null || email.value!!.isBlank() || password.value == null || password.value!!.isBlank()) {
+            _notification.value = "Email and password cannot be empty"
             return
         }
 
-        coroutineScope.launch {
+        viewModelScope.launch {
             _status.value = LogInStatus.LOADING
-            val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
-            if (result != null) {
-                _logMessage.value = "${result.user?.email} successfully logged in"
-                displayLatestMessagesScreen()
-                _status.value = LogInStatus.DONE
-            } else {
-                _notification.value = "Failed to log in user"
-                _logMessage.value = "Failed to log in user"
+            try {
+                val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
+                if (result != null) {
+                    _logMessage.value = "${result.user?.email} successfully logged in"
+                    displayLatestMessagesScreen()
+                    _status.value = LogInStatus.DONE
+                } else {
+                    _notification.value = "Failed to log in user"
+                    _logMessage.value = "Failed to log in user"
+                }
+            } catch (e: FirebaseAuthInvalidUserException) {
+                setError("Invalid User")
+            } catch (e: FirebaseAuthInvalidCredentialsException) {
+                setError("Invalid Password")
+            } catch (e: FirebaseTooManyRequestsException) {
+                setError("Account Blocked - Too many failed login attempts")
             }
         }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        coroutineScope.cancel()
+    private fun setError(message: String) {
+        Log.d(TAG, message)
+        _status.value = LogInStatus.ERROR
+        _notification.value = message
     }
 }
