@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
  * Domain object to represent our user on the app
  */
 @Parcelize
-data class User(val uid: String, val username: String, val profileImageUrl: String) : Parcelable {
+data class User(val uid: String, val username: String, val profileImageUrl: String?) : Parcelable {
     constructor() : this("", "", "")
 }
 

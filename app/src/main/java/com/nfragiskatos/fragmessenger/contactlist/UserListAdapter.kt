@@ -5,11 +5,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.ListViewUserItemBinding
 import com.nfragiskatos.fragmessenger.domain.User
 import com.squareup.picasso.Picasso
 
-class UserListAdapter(private val onClickListener: OnClickListenerUserList) : ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
+class UserListAdapter(private val onClickListener: OnClickListenerUserList) :
+    ListAdapter<User, UserListAdapter.UserViewHolder>(DiffCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder.from(parent)
@@ -27,8 +29,17 @@ class UserListAdapter(private val onClickListener: OnClickListenerUserList) : Li
         RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.textViewUserName.text = user.username
-            Picasso.get().load(user.profileImageUrl).into(binding.imageViewProfilePicture)
 
+            if (user.profileImageUrl.isNullOrBlank()) {
+                binding.imageViewProfilePicture.setImageResource(R.drawable.baseline_person_24)
+            } else {
+                val context = binding.imageViewProfilePicture.context
+                val drawable = context.resources.getDrawable(R.drawable.baseline_person_24)
+                Picasso.get().load(user.profileImageUrl)
+                    .placeholder(drawable)
+                    .error(drawable)
+                    .into(binding.imageViewProfilePicture)
+            }
         }
 
         companion object {

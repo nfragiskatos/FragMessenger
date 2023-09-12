@@ -9,9 +9,10 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.launch
 
 private const val TAG = "LogInViewModel"
+
 enum class LogInStatus { LOADING, ERROR, DONE }
 
 class LogInViewModel : ViewModel() {
@@ -43,8 +44,8 @@ class LogInViewModel : ViewModel() {
     }
 
     fun performLogIn() {
-        if (email.value == null || email.value!!.isBlank() || password.value == null || password.value!!.isBlank()) {
-            _notification.value = "Email and password cannot be empty"
+        if (email.value.isNullOrBlank() || password.value.isNullOrBlank()) {
+            _notification.value = "Please enter an email and password"
             return
         }
 
@@ -61,11 +62,11 @@ class LogInViewModel : ViewModel() {
                     _logMessage.value = "Failed to log in user"
                 }
             } catch (e: FirebaseAuthInvalidUserException) {
-                setError("Invalid User")
+                setError(e.message ?: "Invalid User")
             } catch (e: FirebaseAuthInvalidCredentialsException) {
-                setError("Invalid Password")
+                setError(e.message ?: "Invalid Password")
             } catch (e: FirebaseTooManyRequestsException) {
-                setError("Account Blocked - Too many failed login attempts")
+                setError(e.message ?: "Account Blocked - Too many failed login attempts")
             }
         }
     }

@@ -15,10 +15,12 @@ import com.nfragiskatos.fragmessenger.domain.User
 import com.nfragiskatos.fragmessenger.login.LogInStatus
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.UUID
 
 enum class RegisterStatus { LOADING, ERROR, DONE }
+
 private const val TAG = "RegisterViewModel"
+
 class RegisterViewModel : ViewModel() {
 
     val username = MutableLiveData<String>()
@@ -63,8 +65,11 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun performRegistration() {
+
+        // TODO: Also need to first check Firebase if the username is already taken
+
         if (isIncompleteForm()) {
-            _notification.value = "Please enter username, email, and password."
+            _notification.value = "Please enter a username, email, and password."
             return
         }
 
@@ -76,7 +81,11 @@ class RegisterViewModel : ViewModel() {
                 if (result != null) {
                     _logMessage.value =
                         "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
-                    uploadImageToFirebaseStorage()
+                    val profileImageUri = uploadProfileImageToFirebaseStorage()
+                    Firebase.auth.uid?.also { uid ->
+                        saveUserToFirebaseDatabase(uid, username.value!!, profileImageUri)
+                    }
+                    _status.value = LogInStatus.DONE
                 }
             } catch (e: FirebaseAuthWeakPasswordException) {
                 setError(e.message ?: "Password must be at least 6 characters")
@@ -88,44 +97,35 @@ class RegisterViewModel : ViewModel() {
         }
     }
 
-    private fun isIncompleteForm() : Boolean {
-        return email.value == null || email.value!!.isBlank() || password.value == null || password.value!!.isBlank() || username.value == null || username.value!!.isBlank()
+    private fun isIncompleteForm(): Boolean {
+        return email.value.isNullOrBlank() || password.value.isNullOrBlank() || username.value.isNullOrBlank()
     }
 
-    private fun setError(message:String) {
+    private fun setError(message: String) {
         Log.d(TAG, message)
         _status.value = LogInStatus.ERROR
         _notification.value = message
     }
 
-    private fun uploadImageToFirebaseStorage() {
-        if (selectedPhotoUri.value == null) {
-            return
-        }
-
-        viewModelScope.launch {
-            val filename = UUID.randomUUID().toString()
-            val uri =
-                FirebaseRepository.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
-            if (uri != null) {
-                saveUserToFirebaseDatabase(uri.toString())
-            }
-        }
-
+    private suspend fun uploadProfileImageToFirebaseStorage(): Uri? {
+        val filename = UUID.randomUUID().toString()
+        return if (selectedPhotoUri.value == null) null else
+            FirebaseRepository.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
     }
 
-    private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
-        viewModelScope.launch {
-            val uid = Firebase.auth.uid ?: ""
-            val user = User(
-                uid,
-                username.value ?: "",
-                profileImageUrl
-            )
-            FirebaseRepository.saveUserToDatabase(user, uid, "/users/")
-            _status.value = LogInStatus.DONE
-            displayLatestMessagesScreen()
-        }
+    private suspend fun saveUserToFirebaseDatabase(
+        uid: String,
+        username: String,
+        profileImageUri: Uri?
+    ) {
+        val user = User(
+            uid,
+            username,
+            profileImageUri?.toString()
+        )
+        FirebaseRepository.saveUserToDatabase(user, uid, "/users/")
+        _status.value = LogInStatus.DONE
+        displayLatestMessagesScreen()
     }
 }
 
