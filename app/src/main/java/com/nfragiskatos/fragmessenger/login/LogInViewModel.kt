@@ -9,18 +9,17 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
+import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import kotlinx.coroutines.launch
 
 private const val TAG = "LogInViewModel"
-
-enum class LogInStatus { LOADING, ERROR, DONE }
 
 class LogInViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
 
-    private val _status = MutableLiveData<LogInStatus>()
-    val status: LiveData<LogInStatus>
+    private val _status = MutableLiveData<LoadingStatus>()
+    val status: LiveData<LoadingStatus>
         get() = _status
 
     private val _navigateToLatestMessagesScreen = MutableLiveData<Boolean>()
@@ -50,13 +49,13 @@ class LogInViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            _status.value = LogInStatus.LOADING
+            _status.value = LoadingStatus.LOADING
             try {
                 val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
                 if (result != null) {
                     _logMessage.value = "${result.user?.email} successfully logged in"
                     displayLatestMessagesScreen()
-                    _status.value = LogInStatus.DONE
+                    _status.value = LoadingStatus.DONE
                 } else {
                     _notification.value = "Failed to log in user"
                     _logMessage.value = "Failed to log in user"
@@ -73,7 +72,7 @@ class LogInViewModel : ViewModel() {
 
     private fun setError(message: String) {
         Log.d(TAG, message)
-        _status.value = LogInStatus.ERROR
+        _status.value = LoadingStatus.ERROR
         _notification.value = message
     }
 }

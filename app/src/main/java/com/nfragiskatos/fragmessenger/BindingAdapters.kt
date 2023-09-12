@@ -10,7 +10,7 @@ import com.nfragiskatos.fragmessenger.contactlist.UserListAdapter
 import com.nfragiskatos.fragmessenger.domain.User
 import com.nfragiskatos.fragmessenger.latestmessages.LatestMessageItem
 import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesListAdapter
-import com.nfragiskatos.fragmessenger.login.LogInStatus
+import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 
 
 @BindingAdapter("userListData")
@@ -36,14 +36,14 @@ fun bindLatestMessagesRecyclerView(recyclerView: RecyclerView, data: List<Latest
     adapter.notifyDataSetChanged()
 }
 
-@BindingAdapter("logInStatus")
-fun bindLogInStatus(progressBar: ProgressBar, status: LogInStatus?) {
+@BindingAdapter("loadingStatus")
+fun bindLogInStatus(progressBar: ProgressBar, status: LoadingStatus?) {
     when (status) {
-        LogInStatus.LOADING -> {
+        LoadingStatus.LOADING -> {
             progressBar.visibility = View.VISIBLE
         }
 
-        LogInStatus.DONE, LogInStatus.ERROR -> {
+        LoadingStatus.DONE, LoadingStatus.ERROR -> {
             progressBar.visibility = View.GONE
         }
     }

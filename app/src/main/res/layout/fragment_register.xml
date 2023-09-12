@@ -25,7 +25,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_already_have_account_register"
-            app:logInStatus="@{viewModel.status}" />
+            app:loadingStatus="@{viewModel.status}" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_view_select_photo_register"

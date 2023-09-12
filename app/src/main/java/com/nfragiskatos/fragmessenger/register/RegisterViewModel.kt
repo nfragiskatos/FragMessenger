@@ -12,12 +12,10 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.domain.User
-import com.nfragiskatos.fragmessenger.login.LogInStatus
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
+import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import kotlinx.coroutines.launch
 import java.util.UUID
-
-enum class RegisterStatus { LOADING, ERROR, DONE }
 
 private const val TAG = "RegisterViewModel"
 
@@ -44,8 +42,8 @@ class RegisterViewModel : ViewModel() {
     val navigateToLatestMessagesScreen: LiveData<Boolean>
         get() = _navigateToLatestMessagesScreen
 
-    private val _status = MutableLiveData<LogInStatus>()
-    val status: LiveData<LogInStatus>
+    private val _status = MutableLiveData<LoadingStatus>()
+    val status: LiveData<LoadingStatus>
         get() = _status
 
     fun displayLogInScreen() {
@@ -74,7 +72,7 @@ class RegisterViewModel : ViewModel() {
         }
 
         viewModelScope.launch {
-            _status.value = LogInStatus.LOADING
+            _status.value = LoadingStatus.LOADING
 
             try {
                 val result = FirebaseRepository.performRegistration(email.value!!, password.value!!)
@@ -85,8 +83,10 @@ class RegisterViewModel : ViewModel() {
                     Firebase.auth.uid?.also { uid ->
                         saveUserToFirebaseDatabase(uid, username.value!!, profileImageUri)
                     }
-                    _status.value = LogInStatus.DONE
+                } else {
+                    _status.value = LoadingStatus.DONE
                 }
+
             } catch (e: FirebaseAuthWeakPasswordException) {
                 setError(e.message ?: "Password must be at least 6 characters")
             } catch (e: FirebaseAuthInvalidCredentialsException) {
@@ -103,7 +103,7 @@ class RegisterViewModel : ViewModel() {
 
     private fun setError(message: String) {
         Log.d(TAG, message)
-        _status.value = LogInStatus.ERROR
+        _status.value = LoadingStatus.ERROR
         _notification.value = message
     }
 
@@ -124,7 +124,7 @@ class RegisterViewModel : ViewModel() {
             profileImageUri?.toString()
         )
         FirebaseRepository.saveUserToDatabase(user, uid, "/users/")
-        _status.value = LogInStatus.DONE
+        _status.value = LoadingStatus.DONE
         displayLatestMessagesScreen()
     }
 }

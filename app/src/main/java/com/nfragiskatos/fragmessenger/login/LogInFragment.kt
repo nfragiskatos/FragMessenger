@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.databinding.FragmentLogInBinding
+import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import com.nfragiskatos.fragmessenger.utility.hideKeyboard
 
 
@@ -53,12 +54,12 @@ class LogInFragment : Fragment() {
             Log.d(TAG, it)
         })
         viewModel.notification.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT)
+            Toast.makeText(context, it, Toast.LENGTH_LONG)
                 .show()
         })
         viewModel.status.observe(viewLifecycleOwner, Observer { status ->
             when (status) {
-                LogInStatus.LOADING -> {
+                LoadingStatus.LOADING -> {
                     setLoginEnabled(false)
                 }
 

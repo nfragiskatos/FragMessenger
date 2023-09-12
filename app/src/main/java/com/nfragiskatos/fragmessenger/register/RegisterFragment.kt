@@ -74,7 +74,7 @@ class RegisterFragment : Fragment() {
         })
 
         viewModel.notification.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(context, it, Toast.LENGTH_SHORT)
+            Toast.makeText(context, it, Toast.LENGTH_LONG)
                 .show()
         })
     }
@@ -98,6 +98,7 @@ class RegisterFragment : Fragment() {
                         }
                     }
                 }
+
                 else -> MediaStore.Images.Media.getBitmap(
                     activity?.contentResolver,
                     viewModel.selectedPhotoUri.value
