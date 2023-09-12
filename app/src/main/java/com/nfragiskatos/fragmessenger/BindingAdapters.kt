@@ -1,7 +1,7 @@
 package com.nfragiskatos.fragmessenger
 
 import android.view.View
-import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.chatlog.ChatLogListAdapter
@@ -37,14 +37,14 @@ fun bindLatestMessagesRecyclerView(recyclerView: RecyclerView, data: List<Latest
 }
 
 @BindingAdapter("logInStatus")
-fun bindLogInStatus(statusImageView: ImageView, status: LogInStatus?) {
+fun bindLogInStatus(progressBar: ProgressBar, status: LogInStatus?) {
     when (status) {
         LogInStatus.LOADING -> {
-            statusImageView.visibility = View.VISIBLE
-            statusImageView.setImageResource(R.drawable.loading_animation)
+            progressBar.visibility = View.VISIBLE
         }
+
         LogInStatus.DONE, LogInStatus.ERROR -> {
-            statusImageView.visibility = View.GONE
+            progressBar.visibility = View.GONE
         }
     }
 }

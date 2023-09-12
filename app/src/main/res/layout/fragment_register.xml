@@ -16,6 +16,16 @@
         android:background="@color/colorPrimaryDark"
         tools:context="com.nfragiskatos.fragmessenger.MainActivity">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_already_have_account_register"
+            app:logInStatus="@{viewModel.status}" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_view_select_photo_register"
@@ -131,18 +141,6 @@
             app:layout_constraintEnd_toEndOf="@+id/button_register_register"
             app:layout_constraintStart_toStartOf="@+id/button_register_register"
             app:layout_constraintTop_toBottomOf="@+id/button_register_register" />
-
-        <ImageView
-            android:id="@+id/image_state_log_in"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="TODO"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:logInStatus="@{viewModel.status}" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

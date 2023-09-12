@@ -17,6 +17,17 @@
         android:background="@color/colorPrimaryDark"
         tools:context="com.nfragiskatos.fragmessenger.login.LogInFragment">
 
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_log_in_log_in"
+            app:logInStatus="@{viewModel.status}" />
+
         <EditText
             android:id="@+id/text_email_log_in"
             android:layout_width="0dp"
@@ -75,17 +86,5 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/text_password_log_in"
             app:layout_constraintTop_toBottomOf="@+id/text_password_log_in" />
-
-        <ImageView
-            android:id="@+id/image_state_log_in"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:contentDescription="TODO"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:logInStatus="@{viewModel.status}" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
