@@ -16,6 +16,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.databinding.FragmentRegisterBinding
+import com.nfragiskatos.fragmessenger.utility.hideKeyboard
 
 private const val TAG = "RegisterFragment"
 
@@ -36,6 +37,22 @@ class RegisterFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.buttonSelectPhotoRegister.setOnClickListener {
+            Log.d(TAG, "Try and show photo selector")
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            startActivityForResult(intent, 0)
+        }
+        binding.buttonRegisterRegister.setOnClickListener {
+            hideKeyboard(requireActivity())
+            viewModel.performRegistration()
+        }
+        initObservers()
+        setHasOptionsMenu(true)
+        return binding.root
+    }
+
+    private fun initObservers() {
         viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
@@ -43,13 +60,6 @@ class RegisterFragment : Fragment() {
                 viewModel.displayLogInScreenComplete()
             }
         })
-
-        binding.buttonSelectPhotoRegister.setOnClickListener {
-            Log.d(TAG, "Try and show photo selector")
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
 
         viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
@@ -67,10 +77,6 @@ class RegisterFragment : Fragment() {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
         })
-
-
-        setHasOptionsMenu(true)
-        return binding.root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

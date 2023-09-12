@@ -110,7 +110,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:background="@drawable/button_bg"
-            android:onClick="@{() -> viewModel.performRegistration()}"
             android:text="@string/register"
             android:textColor="@android:color/white"
             app:layout_constraintBottom_toTopOf="@+id/text_already_have_account_register"

@@ -1,19 +1,17 @@
 package com.nfragiskatos.fragmessenger.login
 
-import android.app.Activity
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-
 import com.nfragiskatos.fragmessenger.databinding.FragmentLogInBinding
+import com.nfragiskatos.fragmessenger.utility.hideKeyboard
 
 
 private const val TAG = "LogInFragment"
@@ -35,6 +33,15 @@ class LogInFragment : Fragment() {
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
+        binding.buttonLogInLogIn.setOnClickListener {
+            hideKeyboard(requireActivity())
+            viewModel.performLogIn()
+        }
+        initObservers()
+        return binding.root
+    }
+
+    private fun initObservers() {
         viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
@@ -42,32 +49,19 @@ class LogInFragment : Fragment() {
                 viewModel.displayLatestMessagesScreenComplete()
             }
         })
-
-        binding.buttonLogInLogIn.setOnClickListener {
-            val imm: InputMethodManager = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(requireView().windowToken, 0)
-            viewModel.performLogIn()
-        }
-
-        initObservers()
-        return binding.root
-    }
-
-    private fun initObservers() {
         viewModel.logMessage.observe(viewLifecycleOwner, Observer {
             Log.d(TAG, it)
         })
-
         viewModel.notification.observe(viewLifecycleOwner, Observer {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
         })
-
-        viewModel.status.observe(viewLifecycleOwner, Observer {status ->
+        viewModel.status.observe(viewLifecycleOwner, Observer { status ->
             when (status) {
                 LogInStatus.LOADING -> {
                     setLoginEnabled(false)
                 }
+
                 else -> {
                     setLoginEnabled(true)
                 }
