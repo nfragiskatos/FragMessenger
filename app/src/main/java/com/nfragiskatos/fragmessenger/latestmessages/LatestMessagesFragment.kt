@@ -142,12 +142,7 @@ class LatestMessagesFragment : Fragment() {
             }
             R.id.menu_sign_out -> {
                 Log.d(TAG, "Signing out...")
-
-                // TODO uncomment
-//                Firebase.auth.signOut()
-
-                // TODO remove this.
-                viewModel.displayRegisterScreen()
+                Firebase.auth.signOut()
             }
         }
 
