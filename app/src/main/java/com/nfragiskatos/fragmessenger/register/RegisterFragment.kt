@@ -17,9 +17,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.databinding.FragmentRegisterBinding
 
-class RegisterFragment : Fragment() {
+private const val TAG = "RegisterFragment"
 
-    private val TAG = "RegisterFragment"
+class RegisterFragment : Fragment() {
 
     private val viewModel: RegisterViewModel by lazy {
         ViewModelProvider(this).get(RegisterViewModel::class.java)
@@ -27,14 +27,10 @@ class RegisterFragment : Fragment() {
 
     private lateinit var binding: FragmentRegisterBinding
 
-    companion object {
-        fun newInstance() = RegisterFragment()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         binding = FragmentRegisterBinding.inflate(inflater)
         binding.lifecycleOwner = this

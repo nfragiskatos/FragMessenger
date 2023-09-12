@@ -55,7 +55,7 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                Log.d(TAG, findNavController().currentDestination?.toString())
+                Log.d(TAG, findNavController().currentDestination?.toString() ?: "Navigating to register screen")
                 if (findNavController().currentDestination?.id == R.id.latestMessagesFragment) {
                     Log.d(TAG, "LOG OUT SUCCESS")
                     findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToRegisterFragment())

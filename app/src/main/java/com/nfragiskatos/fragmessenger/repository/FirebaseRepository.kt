@@ -18,9 +18,7 @@ object FirebaseRepository {
     }
 
     suspend fun performRegistration(email: String, password: String): AuthResult? {
-        return withContext(Dispatchers.IO) {
-            return@withContext Firebase.auth.createUserWithEmailAndPassword(email, password).await()
-        }
+        return Firebase.auth.createUserWithEmailAndPassword(email, password).await()
     }
 
     suspend fun uploadImageToStorage(uri: Uri, fileName: String, nodePath: String): Uri? {

@@ -1,22 +1,24 @@
 package com.nfragiskatos.fragmessenger.register
 
 import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.domain.User
 import com.nfragiskatos.fragmessenger.login.LogInStatus
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.*
 
 enum class RegisterStatus { LOADING, ERROR, DONE }
-
+private const val TAG = "RegisterViewModel"
 class RegisterViewModel : ViewModel() {
 
     val username = MutableLiveData<String>()
@@ -44,9 +46,6 @@ class RegisterViewModel : ViewModel() {
     val status: LiveData<LogInStatus>
         get() = _status
 
-    private var viewModelJob = Job()
-    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
-
     fun displayLogInScreen() {
         _navigateToLogInScreen.value = true
     }
@@ -55,7 +54,7 @@ class RegisterViewModel : ViewModel() {
         _navigateToLogInScreen.value = false
     }
 
-    fun displayLatestMessagesScreen() {
+    private fun displayLatestMessagesScreen() {
         _navigateToLatestMessagesScreen.value = true
     }
 
@@ -64,20 +63,39 @@ class RegisterViewModel : ViewModel() {
     }
 
     fun performRegistration() {
-        if (email.value == null || password.value == null) {
-            _notification.value = "Please enter text in email and password."
+        if (isIncompleteForm()) {
+            _notification.value = "Please enter username, email, and password."
             return
         }
 
-        coroutineScope.launch {
+        viewModelScope.launch {
             _status.value = LogInStatus.LOADING
-            val result = FirebaseRepository.performRegistration(email.value!!, password.value!!)
-            if (result != null) {
-                _logMessage.value =
-                    "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
-                uploadImageToFirebaseStorage()
+
+            try {
+                val result = FirebaseRepository.performRegistration(email.value!!, password.value!!)
+                if (result != null) {
+                    _logMessage.value =
+                        "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
+                    uploadImageToFirebaseStorage()
+                }
+            } catch (e: FirebaseAuthWeakPasswordException) {
+                setError(e.message ?: "Password must be at least 6 characters")
+            } catch (e: FirebaseAuthInvalidCredentialsException) {
+                setError(e.message ?: "Password must be at least 6 characters")
+            } catch (e: FirebaseAuthUserCollisionException) {
+                setError(e.message ?: "Email already in use")
             }
         }
+    }
+
+    private fun isIncompleteForm() : Boolean {
+        return email.value == null || email.value!!.isBlank() || password.value == null || password.value!!.isBlank() || username.value == null || username.value!!.isBlank()
+    }
+
+    private fun setError(message:String) {
+        Log.d(TAG, message)
+        _status.value = LogInStatus.ERROR
+        _notification.value = message
     }
 
     private fun uploadImageToFirebaseStorage() {
@@ -85,8 +103,8 @@ class RegisterViewModel : ViewModel() {
             return
         }
 
-        coroutineScope.launch {
-            var filename = UUID.randomUUID().toString()
+        viewModelScope.launch {
+            val filename = UUID.randomUUID().toString()
             val uri =
                 FirebaseRepository.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
             if (uri != null) {
@@ -97,7 +115,7 @@ class RegisterViewModel : ViewModel() {
     }
 
     private fun saveUserToFirebaseDatabase(profileImageUrl: String) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             val uid = Firebase.auth.uid ?: ""
             val user = User(
                 uid,
