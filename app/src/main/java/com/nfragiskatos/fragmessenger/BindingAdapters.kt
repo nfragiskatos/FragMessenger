@@ -26,7 +26,7 @@ fun bindChatMessageRecyclerView(
 ) {
     val adapter = recyclerView.adapter as ChatLogListAdapter
     adapter.submitList(data)
-    adapter.notifyDataSetChanged()
+    adapter.notifyItemInserted(data!!.size)
 }
 
 @BindingAdapter("latestMessagesData")

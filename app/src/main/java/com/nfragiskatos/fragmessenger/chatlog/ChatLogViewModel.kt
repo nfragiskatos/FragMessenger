@@ -46,14 +46,13 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
     }
 
     fun sendMessage() {
-        val fromId = Firebase.auth.uid
+        val fromId = Firebase.auth.uid ?: return
+
         val toId = contact.uid
         val fromRef = Firebase.database.getReference("/user-messages/$fromId/$toId").push()
         val toRef = Firebase.database.getReference("/user-messages/$toId/$fromId").push()
         val latestMessageFromRef = Firebase.database.getReference("/latest-messages/$fromId/$toId")
         val latestMessageToRef = Firebase.database.getReference("/latest-messages/$toId/$fromId")
-
-        if (fromId == null) return
 
         newMessage.value?.let {
             val message =
@@ -62,17 +61,20 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
                 .addOnSuccessListener {
                     log("Saved our chat message: ${fromRef.key}")
                 }
+                .addOnCanceledListener {
+                    log("CANCELLED our chat message: ${fromRef.key}")
+                }
             toRef.setValue(message)
                 .addOnSuccessListener {
                     log("Saved to reference chat message: ${toRef.key}")
                 }
             latestMessageFromRef.setValue(message)
                 .addOnSuccessListener {
-                    log("Saved to latest message: ${latestMessageFromRef.key}")
+                    log("Saved to latest FROM message: ${latestMessageFromRef.key}")
                 }
             latestMessageToRef.setValue(message)
                 .addOnSuccessListener {
-                    log("Saved to latest message: ${latestMessageToRef.key}")
+                    log("Saved to latest TO message: ${latestMessageToRef.key}")
                 }
         }
         newMessage.value = ""
@@ -84,7 +86,6 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
         val toId = contact.uid
         val ref = Firebase.database.getReference("/user-messages/$fromId/$toId")
         ref.addChildEventListener(object : ChildEventListener {
-            var count = 0
             override fun onCancelled(p0: DatabaseError) {
                 log("List message cancelled")
             }
