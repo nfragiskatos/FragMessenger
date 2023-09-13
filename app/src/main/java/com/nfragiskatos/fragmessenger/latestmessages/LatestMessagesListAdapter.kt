@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.User
@@ -34,7 +35,19 @@ class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLate
         fun bind(latestMessage: LatestMessageItem) {
             binding.textViewUsernameLatestMessages.text = latestMessage.user.username
             binding.textviewLatestMessageLatestMessages.text = latestMessage.message.text
-            Picasso.get().load(latestMessage.user.profileImageUrl).into(binding.imageView)
+
+            if (latestMessage.user.profileImageUrl.isNullOrBlank()) {
+                binding.imageView.setImageResource(R.drawable.baseline_person_24)
+            } else {
+                val context = binding.imageView.context
+                val drawable = context.resources.getDrawable(R.drawable.baseline_person_24)
+                Picasso.get().load(latestMessage.user.profileImageUrl)
+                    .placeholder(drawable)
+                    .error(drawable)
+                    .into(binding.imageView)
+            }
+
+
         }
 
         companion object {
