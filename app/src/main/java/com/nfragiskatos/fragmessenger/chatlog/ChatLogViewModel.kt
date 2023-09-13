@@ -13,9 +13,9 @@ import com.nfragiskatos.fragmessenger.domain.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.User
 import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment
 
-class ChatLogViewModel(_contact: User) : ViewModel() {
+class ChatLogViewModel(val contact: User) : ViewModel() {
 
-    val contact = _contact
+    //    val contact = _contact
     val newMessage = MutableLiveData<String>()
     private val _messageAdded = MutableLiveData<Boolean>()
     val messageAdded: LiveData<Boolean>
