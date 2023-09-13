@@ -12,9 +12,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.databinding.FragmentChatLogBinding
 
-class ChatLogFragment : Fragment() {
+private const val TAG = "ChatLogFragment"
 
-    private val TAG = "ChatLogFragment"
+class ChatLogFragment : Fragment() {
 
     private lateinit var binding: FragmentChatLogBinding
 
@@ -27,7 +27,7 @@ class ChatLogFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        Log.d(TAG,"ViewModelStore: $viewModelStore")
+        Log.d(TAG, "ViewModelStore: $viewModelStore")
 
         defaultViewModelProviderFactory
 

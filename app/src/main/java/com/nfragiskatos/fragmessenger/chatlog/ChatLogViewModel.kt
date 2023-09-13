@@ -84,17 +84,17 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
         val toId = contact.uid
         val ref = Firebase.database.getReference("/user-messages/$fromId/$toId")
         ref.addChildEventListener(object : ChildEventListener {
-            var count = 0;
+            var count = 0
             override fun onCancelled(p0: DatabaseError) {
-                TODO("Not yet implemented")
+                log("List message cancelled")
             }
 
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                TODO("Not yet implemented")
+                log("List message child moved")
             }
 
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                TODO("Not yet implemented")
+                log("List message child changed")
             }
 
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -118,7 +118,7 @@ class ChatLogViewModel(_contact: User) : ViewModel() {
             }
 
             override fun onChildRemoved(p0: DataSnapshot) {
-                TODO("Not yet implemented")
+                log("List message child removed")
             }
         })
     }
