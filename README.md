@@ -14,7 +14,7 @@ FragMessenger is an example app that uses Firebase as the back end to facilitate
 - [x] Move Firebase calls to a repository
 - [ ] Add DI
 - [x] Use Coroutines instead of all the callbacks
-- [ ] Add local cache
+- [ ] #1
 - [ ] Better loading display graphic
 - [ ] Better color scheme / design
 
