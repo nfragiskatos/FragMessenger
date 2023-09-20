@@ -1,12 +1,13 @@
-package com.nfragiskatos.fragmessenger
+package com.nfragiskatos.fragmessenger.presentation.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.nfragiskatos.fragmessenger.R
 
 class MainActivity : AppCompatActivity() {
 

@@ -20,10 +20,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentLatestMessagesBinding
 import com.nfragiskatos.fragmessenger.domain.models.User
+import com.nfragiskatos.fragmessenger.presentation.ui.MainViewModel
 
 class LatestMessagesFragment : Fragment() {
 

@@ -9,8 +9,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.databinding.FragmentChatLogBinding
+import com.nfragiskatos.fragmessenger.presentation.ui.MainViewModel
 
 private const val TAG = "ChatLogFragment"
 
