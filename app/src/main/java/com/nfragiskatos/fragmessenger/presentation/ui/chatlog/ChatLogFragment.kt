@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.chatlog
+package com.nfragiskatos.fragmessenger.presentation.ui.chatlog
 
 import android.os.Bundle
 import android.util.Log
@@ -32,7 +32,9 @@ class ChatLogFragment : Fragment() {
         defaultViewModelProviderFactory
 
         val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
-        val user = ChatLogFragmentArgs.fromBundle(requireArguments()).user
+        val user = ChatLogFragmentArgs.fromBundle(
+            requireArguments()
+        ).user
         val chatLogViewModelFactory = ChatLogViewModelFactory(user)
         val viewModel =
             ViewModelProvider(this, chatLogViewModelFactory).get(ChatLogViewModel::class.java)

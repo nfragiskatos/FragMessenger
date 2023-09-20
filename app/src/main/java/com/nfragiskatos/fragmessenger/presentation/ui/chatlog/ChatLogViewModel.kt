@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.chatlog
+package com.nfragiskatos.fragmessenger.presentation.ui.chatlog
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.chatlog
+package com.nfragiskatos.fragmessenger.presentation.ui.chatlog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

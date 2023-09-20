@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.chatlog
+package com.nfragiskatos.fragmessenger.presentation.ui.chatlog
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
