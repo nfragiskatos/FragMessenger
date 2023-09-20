@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogFromMessageItemBinding
 import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogToMessageItemBinding
-import com.nfragiskatos.fragmessenger.domain.ChatMessage
+import com.nfragiskatos.fragmessenger.domain.models.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.models.User
 import com.squareup.picasso.Picasso
 

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
-import com.nfragiskatos.fragmessenger.domain.ChatMessage
+import com.nfragiskatos.fragmessenger.domain.models.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.models.User
 import com.squareup.picasso.Picasso
 

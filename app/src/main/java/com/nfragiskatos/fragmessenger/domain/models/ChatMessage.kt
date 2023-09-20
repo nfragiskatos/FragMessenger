@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.domain
+package com.nfragiskatos.fragmessenger.domain.models
 
 
 data class ChatMessage(
