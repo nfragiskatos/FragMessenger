@@ -7,13 +7,13 @@
 
         <variable
             name="viewModel"
-            type="com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesViewModel" />
+            type="com.nfragiskatos.fragmessenger.presentation.ui.latestmessages.LatestMessagesViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".latestmessages.LatestMessagesFragment">
+        tools:context=".presentation.ui.latestmessages.LatestMessagesFragment">
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.latestmessages
+package com.nfragiskatos.fragmessenger.presentation.ui.latestmessages
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

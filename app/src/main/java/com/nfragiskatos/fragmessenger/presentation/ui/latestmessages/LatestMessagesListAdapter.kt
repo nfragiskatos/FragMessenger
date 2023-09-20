@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.latestmessages
+package com.nfragiskatos.fragmessenger.presentation.ui.latestmessages
 
 
 import android.view.LayoutInflater

@@ -11,7 +11,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.domain.models.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.models.User
-import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment
+import com.nfragiskatos.fragmessenger.presentation.ui.latestmessages.LatestMessagesFragment
 
 class ChatLogViewModel(val contact: User) : ViewModel() {
 

@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/latestMessagesFragment"
-        android:name="com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesFragment"
+        android:name="com.nfragiskatos.fragmessenger.presentation.ui.latestmessages.LatestMessagesFragment"
         android:label="LatestMessagesFragment">
         <action
             android:id="@+id/action_latestMessagesFragment_to_RegisterFragment"

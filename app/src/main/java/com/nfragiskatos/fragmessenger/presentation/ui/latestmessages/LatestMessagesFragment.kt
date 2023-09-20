@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.latestmessages
+package com.nfragiskatos.fragmessenger.presentation.ui.latestmessages
 
 import android.os.Bundle
 import android.util.Log
@@ -60,7 +60,8 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                Log.d(TAG,
+                Log.d(
+                    TAG,
                     findNavController().currentDestination?.toString()
                         ?: "Navigating to register screen"
                 )
