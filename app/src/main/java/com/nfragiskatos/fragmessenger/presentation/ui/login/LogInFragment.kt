@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.login
+package com.nfragiskatos.fragmessenger.presentation.ui.login
 
 import android.os.Bundle
 import android.util.Log

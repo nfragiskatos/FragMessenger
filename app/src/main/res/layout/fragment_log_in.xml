@@ -8,14 +8,14 @@
 
         <variable
             name="viewModel"
-            type="com.nfragiskatos.fragmessenger.login.LogInViewModel" />
+            type="com.nfragiskatos.fragmessenger.presentation.ui.login.LogInViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimaryDark"
-        tools:context="com.nfragiskatos.fragmessenger.login.LogInFragment">
+        tools:context="com.nfragiskatos.fragmessenger.presentation.ui.login.LogInFragment">
 
         <ProgressBar
             android:id="@+id/progressBar"

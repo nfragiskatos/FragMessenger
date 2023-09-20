@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.login
+package com.nfragiskatos.fragmessenger.presentation.ui.login
 
 import android.util.Log
 import androidx.lifecycle.LiveData
