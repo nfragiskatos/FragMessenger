@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.register
+package com.nfragiskatos.fragmessenger.presentation.ui.register
 
 import android.app.Activity
 import android.content.Intent
@@ -56,7 +56,7 @@ class RegisterFragment : Fragment() {
         viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
-                    .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
+                    .navigate(com.nfragiskatos.fragmessenger.register.RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
                 viewModel.displayLogInScreenComplete()
             }
         })
@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
         viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
-                    .navigate(RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
+                    .navigate(com.nfragiskatos.fragmessenger.register.RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
                 viewModel.displayLatestMessagesScreenComplete()
             }
         })

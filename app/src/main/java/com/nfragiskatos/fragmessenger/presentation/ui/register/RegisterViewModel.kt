@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.register
+package com.nfragiskatos.fragmessenger.presentation.ui.register
 
 import android.net.Uri
 import android.util.Log
