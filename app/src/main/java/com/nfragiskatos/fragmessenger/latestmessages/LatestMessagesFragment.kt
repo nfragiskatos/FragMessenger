@@ -2,7 +2,12 @@ package com.nfragiskatos.fragmessenger.latestmessages
 
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,7 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.MainViewModel
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.FragmentLatestMessagesBinding
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.domain.models.User
 
 class LatestMessagesFragment : Fragment() {
 
@@ -55,7 +60,10 @@ class LatestMessagesFragment : Fragment() {
 
         viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
-                Log.d(TAG, findNavController().currentDestination?.toString() ?: "Navigating to register screen")
+                Log.d(TAG,
+                    findNavController().currentDestination?.toString()
+                        ?: "Navigating to register screen"
+                )
                 if (findNavController().currentDestination?.id == R.id.latestMessagesFragment) {
                     Log.d(TAG, "LOG OUT SUCCESS")
                     findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToRegisterFragment())
@@ -140,6 +148,7 @@ class LatestMessagesFragment : Fragment() {
                 Log.d(TAG, "Creating new message...")
                 viewModel.displayNewMessageScreen()
             }
+
             R.id.menu_sign_out -> {
                 Log.d(TAG, "Signing out...")
                 Firebase.auth.signOut()

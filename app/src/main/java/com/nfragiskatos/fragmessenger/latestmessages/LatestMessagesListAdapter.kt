@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nfragiskatos.fragmessenger.R
 import com.nfragiskatos.fragmessenger.databinding.ListViewLatestMessageItemBinding
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.domain.models.User
 import com.squareup.picasso.Picasso
 
 class LatestMessagesListAdapter(private val onClickListener: OnClickListenerLatestMessages) :

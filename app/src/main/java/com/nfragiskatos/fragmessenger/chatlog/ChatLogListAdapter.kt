@@ -5,9 +5,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nfragiskatos.fragmessenger.databinding.*
+import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogFromMessageItemBinding
+import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogToMessageItemBinding
 import com.nfragiskatos.fragmessenger.domain.ChatMessage
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.domain.models.User
 import com.squareup.picasso.Picasso
 
 private const val MESSAGE_VIEW_TYPE_FROM = 0;
@@ -29,6 +30,7 @@ class ChatLogListAdapter :
                 val item = getItem(position) as ChatLogMessageItem.FromMessageItem
                 holder.bind(item)
             }
+
             is ToMessageViewHolder -> {
                 val item = getItem(position) as ChatLogMessageItem.ToMessageItem
                 holder.bind(item)

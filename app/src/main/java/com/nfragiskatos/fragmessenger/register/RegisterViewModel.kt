@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.nfragiskatos.fragmessenger.domain.User
+import com.nfragiskatos.fragmessenger.domain.models.User
 import com.nfragiskatos.fragmessenger.repository.FirebaseRepository
 import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import kotlinx.coroutines.launch

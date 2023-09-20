@@ -25,7 +25,7 @@
             android:id="@+id/action_logInFragment_to_latestMessagesFragment"
             app:destination="@id/latestMessagesFragment"
             app:popUpTo="@id/RegisterFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/latestMessagesFragment"
@@ -59,6 +59,6 @@
         android:label="ChatLogFragment">
         <argument
             android:name="user"
-            app:argType="com.nfragiskatos.fragmessenger.domain.User" />
+            app:argType="com.nfragiskatos.fragmessenger.domain.models.User" />
     </fragment>
 </navigation>
