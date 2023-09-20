@@ -1,8 +1,6 @@
 package com.nfragiskatos.fragmessenger.databinding;
 import com.nfragiskatos.fragmessenger.R;
 import com.nfragiskatos.fragmessenger.BR;
-import com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.view.View;
@@ -41,7 +39,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
             // viewModel.email
             androidx.lifecycle.MutableLiveData<java.lang.String> viewModelEmail = null;
             // viewModel
-            RegisterViewModel viewModel = mViewModel;
+            com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel viewModel = mViewModel;
             // viewModel != null
             boolean viewModelJavaLangObjectNull = false;
             // viewModel.email != null
@@ -78,7 +76,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
             // viewModel.password.getValue()
             java.lang.String viewModelPasswordGetValue = null;
             // viewModel
-            RegisterViewModel viewModel = mViewModel;
+            com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel viewModel = mViewModel;
             // viewModel.password
             androidx.lifecycle.MutableLiveData<java.lang.String> viewModelPassword = null;
             // viewModel != null
@@ -115,7 +113,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
             // viewModel.username.getValue()
             java.lang.String viewModelUsernameGetValue = null;
             // viewModel
-            RegisterViewModel viewModel = mViewModel;
+            com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel viewModel = mViewModel;
             // viewModel.username
             androidx.lifecycle.MutableLiveData<java.lang.String> viewModelUsername = null;
             // viewModel != null
@@ -190,7 +188,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((RegisterViewModel) variable);
+            setViewModel((com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel) variable);
         }
         else {
             variableSet = false;
@@ -198,7 +196,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
             return variableSet;
     }
 
-    public void setViewModel(@Nullable RegisterViewModel ViewModel) {
+    public void setViewModel(@Nullable com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x10L;
@@ -272,7 +270,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
         androidx.lifecycle.LiveData<com.nfragiskatos.fragmessenger.utility.LoadingStatus> viewModelStatus = null;
         androidx.lifecycle.MutableLiveData<java.lang.String> viewModelEmail = null;
         com.nfragiskatos.fragmessenger.utility.LoadingStatus viewModelStatusGetValue = null;
-        RegisterViewModel viewModel = mViewModel;
+        com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel viewModel = mViewModel;
         androidx.lifecycle.MutableLiveData<java.lang.String> viewModelPassword = null;
 
         if ((dirtyFlags & 0x3fL) != 0) {
@@ -370,7 +368,7 @@ public class FragmentRegisterBindingImpl extends FragmentRegisterBinding impleme
     public final void _internalCallbackOnClick(int sourceId , android.view.View callbackArg_0) {
         // localize variables for thread safety
         // viewModel
-        RegisterViewModel viewModel = mViewModel;
+        com.nfragiskatos.fragmessenger.presentation.ui.register.RegisterViewModel viewModel = mViewModel;
         // viewModel != null
         boolean viewModelJavaLangObjectNull = false;
 

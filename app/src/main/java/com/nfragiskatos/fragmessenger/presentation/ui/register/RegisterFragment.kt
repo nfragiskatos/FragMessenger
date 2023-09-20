@@ -56,7 +56,7 @@ class RegisterFragment : Fragment() {
         viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
-                    .navigate(com.nfragiskatos.fragmessenger.register.RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
+                    .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
                 viewModel.displayLogInScreenComplete()
             }
         })
@@ -64,7 +64,7 @@ class RegisterFragment : Fragment() {
         viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
             if (navigate) {
                 this.findNavController()
-                    .navigate(com.nfragiskatos.fragmessenger.register.RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
+                    .navigate(RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
                 viewModel.displayLatestMessagesScreenComplete()
             }
         })

@@ -1,7 +1,6 @@
 package com.nfragiskatos.fragmessenger.databinding;
+import com.nfragiskatos.fragmessenger.R;
 import com.nfragiskatos.fragmessenger.BR;
-import com.nfragiskatos.fragmessenger.domain.models.User;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import android.view.View;
@@ -82,11 +81,11 @@ public class FragmentContactListBindingImpl extends FragmentContactListBinding  
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
             case 0 :
-                return onChangeViewModelUsers((androidx.lifecycle.LiveData<java.util.List<User>>) object, fieldId);
+                return onChangeViewModelUsers((androidx.lifecycle.LiveData<java.util.List<com.nfragiskatos.fragmessenger.domain.models.User>>) object, fieldId);
         }
         return false;
     }
-    private boolean onChangeViewModelUsers(androidx.lifecycle.LiveData<java.util.List<User>> ViewModelUsers, int fieldId) {
+    private boolean onChangeViewModelUsers(androidx.lifecycle.LiveData<java.util.List<com.nfragiskatos.fragmessenger.domain.models.User>> ViewModelUsers, int fieldId) {
         if (fieldId == BR._all) {
             synchronized(this) {
                     mDirtyFlags |= 0x1L;
@@ -103,9 +102,9 @@ public class FragmentContactListBindingImpl extends FragmentContactListBinding  
             dirtyFlags = mDirtyFlags;
             mDirtyFlags = 0;
         }
-        java.util.List<User> viewModelUsersGetValue = null;
+        java.util.List<com.nfragiskatos.fragmessenger.domain.models.User> viewModelUsersGetValue = null;
         com.nfragiskatos.fragmessenger.contactlist.ContactListViewModel viewModel = mViewModel;
-        androidx.lifecycle.LiveData<java.util.List<User>> viewModelUsers = null;
+        androidx.lifecycle.LiveData<java.util.List<com.nfragiskatos.fragmessenger.domain.models.User>> viewModelUsers = null;
 
         if ((dirtyFlags & 0x7L) != 0) {
 
