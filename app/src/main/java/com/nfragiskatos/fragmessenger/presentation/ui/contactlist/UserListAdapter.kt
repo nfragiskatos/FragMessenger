@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.contactlist
+package com.nfragiskatos.fragmessenger.presentation.ui.contactlist
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

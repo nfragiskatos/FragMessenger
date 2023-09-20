@@ -60,7 +60,7 @@ public class FragmentContactListBindingImpl extends FragmentContactListBinding  
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
         if (BR.viewModel == variableId) {
-            setViewModel((com.nfragiskatos.fragmessenger.contactlist.ContactListViewModel) variable);
+            setViewModel((com.nfragiskatos.fragmessenger.presentation.ui.contactlist.ContactListViewModel) variable);
         }
         else {
             variableSet = false;
@@ -68,7 +68,7 @@ public class FragmentContactListBindingImpl extends FragmentContactListBinding  
             return variableSet;
     }
 
-    public void setViewModel(@Nullable com.nfragiskatos.fragmessenger.contactlist.ContactListViewModel ViewModel) {
+    public void setViewModel(@Nullable com.nfragiskatos.fragmessenger.presentation.ui.contactlist.ContactListViewModel ViewModel) {
         this.mViewModel = ViewModel;
         synchronized(this) {
             mDirtyFlags |= 0x2L;
@@ -103,7 +103,7 @@ public class FragmentContactListBindingImpl extends FragmentContactListBinding  
             mDirtyFlags = 0;
         }
         java.util.List<com.nfragiskatos.fragmessenger.domain.models.User> viewModelUsersGetValue = null;
-        com.nfragiskatos.fragmessenger.contactlist.ContactListViewModel viewModel = mViewModel;
+        com.nfragiskatos.fragmessenger.presentation.ui.contactlist.ContactListViewModel viewModel = mViewModel;
         androidx.lifecycle.LiveData<java.util.List<com.nfragiskatos.fragmessenger.domain.models.User>> viewModelUsers = null;
 
         if ((dirtyFlags & 0x7L) != 0) {

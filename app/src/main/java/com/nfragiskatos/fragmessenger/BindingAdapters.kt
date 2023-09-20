@@ -4,12 +4,12 @@ import android.view.View
 import android.widget.ProgressBar
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.nfragiskatos.fragmessenger.contactlist.UserListAdapter
 import com.nfragiskatos.fragmessenger.domain.models.User
 import com.nfragiskatos.fragmessenger.latestmessages.LatestMessageItem
 import com.nfragiskatos.fragmessenger.latestmessages.LatestMessagesListAdapter
 import com.nfragiskatos.fragmessenger.presentation.ui.chatlog.ChatLogListAdapter
 import com.nfragiskatos.fragmessenger.presentation.ui.chatlog.ChatLogMessageItem
+import com.nfragiskatos.fragmessenger.presentation.ui.contactlist.UserListAdapter
 import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 
 

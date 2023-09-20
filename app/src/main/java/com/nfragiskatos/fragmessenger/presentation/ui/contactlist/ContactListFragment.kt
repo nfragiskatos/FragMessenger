@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.contactlist
+package com.nfragiskatos.fragmessenger.presentation.ui.contactlist
 
 import android.os.Bundle
 import android.util.Log
@@ -61,7 +61,9 @@ class ContactListFragment : Fragment() {
         viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
             if (user != null) {
                 this.findNavController().navigate(
-                    ContactListFragmentDirections.actionContactListFragmentToChatLogFragment(user)
+                    ContactListFragmentDirections.actionContactListFragmentToChatLogFragment(
+                        user
+                    )
                 )
                 viewModel.displayChatLogScreenCompleted()
             }

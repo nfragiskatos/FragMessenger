@@ -45,7 +45,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactListFragment"
-        android:name="com.nfragiskatos.fragmessenger.contactlist.ContactListFragment"
+        android:name="com.nfragiskatos.fragmessenger.presentation.ui.contactlist.ContactListFragment"
         android:label="ContactListFragment">
         <action
             android:id="@+id/action_contactListFragment_to_chatLogFragment"

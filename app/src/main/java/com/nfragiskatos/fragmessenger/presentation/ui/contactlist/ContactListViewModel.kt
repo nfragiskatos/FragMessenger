@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.contactlist
+package com.nfragiskatos.fragmessenger.presentation.ui.contactlist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
