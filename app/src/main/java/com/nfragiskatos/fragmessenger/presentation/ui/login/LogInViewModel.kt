@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
-import com.nfragiskatos.fragmessenger.data.remote.FirebaseRepository
+import com.nfragiskatos.fragmessenger.data.remote.FirebaseRepositoryImpl
 import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import kotlinx.coroutines.launch
 
@@ -17,6 +17,9 @@ private const val TAG = "LogInViewModel"
 class LogInViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
+
+    // should inject this...
+    private val repository = FirebaseRepositoryImpl()
 
     private val _status = MutableLiveData<LoadingStatus>()
     val status: LiveData<LoadingStatus>
@@ -51,7 +54,7 @@ class LogInViewModel : ViewModel() {
         viewModelScope.launch {
             _status.value = LoadingStatus.LOADING
             try {
-                val result = FirebaseRepository.performLogIn(email.value!!, password.value!!)
+                val result = repository.performLogIn(email.value!!, password.value!!)
                 if (result != null) {
                     _logMessage.value = "${result.user?.email} successfully logged in"
                     displayLatestMessagesScreen()

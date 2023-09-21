@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.nfragiskatos.fragmessenger.data.remote.FirebaseRepository
+import com.nfragiskatos.fragmessenger.data.remote.FirebaseRepositoryImpl
 import com.nfragiskatos.fragmessenger.domain.models.User
 import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 import kotlinx.coroutines.launch
@@ -25,6 +25,9 @@ class RegisterViewModel : ViewModel() {
     val email = MutableLiveData<String>()
     val password = MutableLiveData<String>()
     val selectedPhotoUri = MutableLiveData<Uri>()
+
+    // should inject this...
+    private val repository = FirebaseRepositoryImpl()
 
     private val _notification = MutableLiveData<String>()
     val notification: LiveData<String>
@@ -75,7 +78,8 @@ class RegisterViewModel : ViewModel() {
             _status.value = LoadingStatus.LOADING
 
             try {
-                val result = FirebaseRepository.performRegistration(email.value!!, password.value!!)
+                val result =
+                    repository.performRegistration(email.value!!, password.value!!)
                 if (result != null) {
                     _logMessage.value =
                         "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
@@ -110,7 +114,11 @@ class RegisterViewModel : ViewModel() {
     private suspend fun uploadProfileImageToFirebaseStorage(): Uri? {
         val filename = UUID.randomUUID().toString()
         return if (selectedPhotoUri.value == null) null else
-            FirebaseRepository.uploadImageToStorage(selectedPhotoUri.value!!, filename, "/images/")
+            repository.uploadImageToStorage(
+                selectedPhotoUri.value!!,
+                filename,
+                "/images/"
+            )
     }
 
     private suspend fun saveUserToFirebaseDatabase(
@@ -123,7 +131,7 @@ class RegisterViewModel : ViewModel() {
             username,
             profileImageUri?.toString()
         )
-        FirebaseRepository.saveUserToDatabase(user, uid, "/users/")
+        repository.saveUserToDatabase(user, uid, "/users/")
         _status.value = LoadingStatus.DONE
         displayLatestMessagesScreen()
     }
