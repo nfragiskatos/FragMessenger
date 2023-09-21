@@ -1,4 +1,4 @@
-package com.nfragiskatos.fragmessenger.repository
+package com.nfragiskatos.fragmessenger.data.remote
 
 import android.net.Uri
 import com.google.firebase.auth.AuthResult
