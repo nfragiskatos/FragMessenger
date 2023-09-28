@@ -15,8 +15,9 @@ import com.nfragiskatos.fragmessenger.utility.LoadingStatus
 
 @BindingAdapter("userListData")
 fun bindUserRecyclerView(recyclerView: RecyclerView, data: List<User>?) {
-    val adapter = recyclerView.adapter as UserListAdapter
-    adapter.submitList(data)
+    (recyclerView.adapter as UserListAdapter).run {
+        submitList(data)
+    }
 }
 
 @BindingAdapter("messageListData")
@@ -24,27 +25,29 @@ fun bindChatMessageRecyclerView(
     recyclerView: RecyclerView,
     data: List<ChatLogMessageItem>?
 ) {
-    val adapter = recyclerView.adapter as ChatLogListAdapter
-    adapter.submitList(data)
-    adapter.notifyItemInserted(data!!.size)
+    (recyclerView.adapter as ChatLogListAdapter).run {
+        submitList(data)
+        notifyItemInserted(data!!.size)
+    }
 }
 
 @BindingAdapter("latestMessagesData")
 fun bindLatestMessagesRecyclerView(recyclerView: RecyclerView, data: List<LatestMessageItem>?) {
-    val adapter = recyclerView.adapter as LatestMessagesListAdapter
-    adapter.submitList(data)
-    adapter.notifyDataSetChanged()
+    (recyclerView.adapter as LatestMessagesListAdapter).run {
+        submitList(data)
+        notifyDataSetChanged()
+    }
 }
 
 @BindingAdapter("loadingStatus")
 fun bindLogInStatus(progressBar: ProgressBar, status: LoadingStatus?) {
-    when (status) {
+    progressBar.visibility = when (status) {
         LoadingStatus.LOADING -> {
-            progressBar.visibility = View.VISIBLE
+            View.VISIBLE
         }
 
-        LoadingStatus.DONE, LoadingStatus.ERROR -> {
-            progressBar.visibility = View.GONE
+        else -> {
+            View.GONE
         }
     }
 }
