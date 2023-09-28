@@ -9,10 +9,12 @@ import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogFromMessageItem
 import com.nfragiskatos.fragmessenger.databinding.ListViewChatLogToMessageItemBinding
 import com.nfragiskatos.fragmessenger.domain.models.ChatMessage
 import com.nfragiskatos.fragmessenger.domain.models.User
+import com.nfragiskatos.fragmessenger.presentation.ui.chatlog.ChatLogMessageItem.FromMessageItem
+import com.nfragiskatos.fragmessenger.presentation.ui.chatlog.ChatLogMessageItem.ToMessageItem
 import com.squareup.picasso.Picasso
 
-private const val MESSAGE_VIEW_TYPE_FROM = 0;
-private const val MESSAGE_VIEW_TYPE_TO = 1;
+private const val MESSAGE_VIEW_TYPE_FROM = 0
+private const val MESSAGE_VIEW_TYPE_TO = 1
 
 class ChatLogListAdapter :
     ListAdapter<ChatLogMessageItem, RecyclerView.ViewHolder>(DiffCallback) {
@@ -27,12 +29,12 @@ class ChatLogListAdapter :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is FromMessageViewHolder -> {
-                val item = getItem(position) as ChatLogMessageItem.FromMessageItem
+                val item = getItem(position) as FromMessageItem
                 holder.bind(item)
             }
 
             is ToMessageViewHolder -> {
-                val item = getItem(position) as ChatLogMessageItem.ToMessageItem
+                val item = getItem(position) as ToMessageItem
                 holder.bind(item)
             }
         }
@@ -40,14 +42,14 @@ class ChatLogListAdapter :
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is ChatLogMessageItem.FromMessageItem -> MESSAGE_VIEW_TYPE_FROM
-            is ChatLogMessageItem.ToMessageItem -> MESSAGE_VIEW_TYPE_TO
+            is FromMessageItem -> MESSAGE_VIEW_TYPE_FROM
+            is ToMessageItem -> MESSAGE_VIEW_TYPE_TO
         }
     }
 
     class FromMessageViewHolder private constructor(private val binding: ListViewChatLogFromMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: ChatLogMessageItem.FromMessageItem) {
+        fun bind(message: FromMessageItem) {
             binding.textMessageChatFromItem.text = message.message.text
 
             Picasso.get().load(message.user.profileImageUrl).into(binding.imageProfileChatFromItem)
@@ -67,7 +69,7 @@ class ChatLogListAdapter :
 
     class ToMessageViewHolder private constructor(private val binding: ListViewChatLogToMessageItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(message: ChatLogMessageItem.ToMessageItem) {
+        fun bind(message: ToMessageItem) {
             binding.textMessageChatToItem.text = message.message.text
 
             // load user image into
@@ -105,11 +107,7 @@ class ChatLogListAdapter :
 
 sealed class ChatLogMessageItem {
 
-    data class FromMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem() {
+    data class FromMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem()
 
-    }
-
-    data class ToMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem() {
-
-    }
+    data class ToMessageItem(val message: ChatMessage, val user: User) : ChatLogMessageItem()
 }
