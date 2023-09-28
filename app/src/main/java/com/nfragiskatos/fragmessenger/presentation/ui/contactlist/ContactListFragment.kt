@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,33 +31,36 @@ class ContactListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentContactListBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
+    ): View {
+        binding = FragmentContactListBinding.inflate(inflater).also { binding ->
+            binding.lifecycleOwner = this
+            binding.viewModel = viewModel
+            binding.recyclerviewNewMessage.adapter =
+                UserListAdapter(UserListAdapter.OnClickListenerUserList { user ->
+                    viewModel.displayChatLogScreen(user)
+                })
 
-        val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
-        mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
+            binding.recyclerviewNewMessage.addItemDecoration(
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+            )
+        }
+        initObservers()
+        viewModel.fetchUsers()
+        initActionBarTitle()
+        return binding.root
+    }
 
-        binding.recyclerviewNewMessage.adapter =
-            UserListAdapter(UserListAdapter.OnClickListenerUserList { user ->
-                viewModel.displayChatLogScreen(user)
-            })
-
-        binding.recyclerviewNewMessage.addItemDecoration(
-            DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-        )
-
-        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+    private fun initObservers() {
+        viewModel.logMessage.observe(viewLifecycleOwner) {
             Log.d(TAG, it)
-        })
+        }
 
-        viewModel.notification.observe(viewLifecycleOwner, Observer {
+        viewModel.notification.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
-        })
+        }
 
-        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
+        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 this.findNavController().navigate(
                     ContactListFragmentDirections.actionContactListFragmentToChatLogFragment(
@@ -67,10 +69,11 @@ class ContactListFragment : Fragment() {
                 )
                 viewModel.displayChatLogScreenCompleted()
             }
-        })
+        }
+    }
 
-        viewModel.fetchUsers()
-
-        return binding.root
+    private fun initActionBarTitle() {
+        val mainViewModel = activity?.let { ViewModelProvider(it).get(MainViewModel::class.java) }
+        mainViewModel?.updateActionBarTitle(getString(R.string.select_user))
     }
 }
