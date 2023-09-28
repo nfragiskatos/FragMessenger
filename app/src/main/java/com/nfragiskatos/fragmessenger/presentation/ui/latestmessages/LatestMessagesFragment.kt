@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -43,11 +42,21 @@ class LatestMessagesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentLatestMessagesBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
+    ): View {
+        binding = FragmentLatestMessagesBinding.inflate(inflater).also { binding ->
+            binding.lifecycleOwner = this
+            binding.viewModel = viewModel
+            binding.recyclerviewMessagesLatestMessages.adapter =
+                LatestMessagesListAdapter(LatestMessagesListAdapter.OnClickListenerLatestMessages {
+                    viewModel.displayChatLogScreen(it.user)
+                })
+            binding.recyclerviewMessagesLatestMessages.addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
+        }
         Firebase.auth.addAuthStateListener {
             if (it.currentUser == null) {
                 viewModel.displayRegisterScreen()
@@ -57,8 +66,17 @@ class LatestMessagesFragment : Fragment() {
         }
 
         fetchCurrentUser()
+        setHasOptionsMenu(true)
+        initObservers()
+        viewModel.listenForLatestMessages()
 
-        viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner, Observer { navigate ->
+        initActionBarTitle()
+        return binding.root
+    }
+
+    private fun initObservers() {
+
+        viewModel.navigateToRegisterScreen.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 Log.d(
                     TAG,
@@ -74,39 +92,25 @@ class LatestMessagesFragment : Fragment() {
                 }
                 viewModel.displayRegisterScreenComplete()
             }
-        })
+        }
 
-        viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner, Observer { navigate ->
+        viewModel.navigateToNewMessageScreen.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 findNavController().navigate(LatestMessagesFragmentDirections.actionLatestMessagesFragmentToContactListFragment())
                 viewModel.displayNewMessageScreenComplete()
             }
-        })
+        }
 
-        setHasOptionsMenu(true)
-
-        binding.recyclerviewMessagesLatestMessages.adapter =
-            LatestMessagesListAdapter(LatestMessagesListAdapter.OnClickListenerLatestMessages {
-                viewModel.displayChatLogScreen(it.user)
-            })
-
-        binding.recyclerviewMessagesLatestMessages.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
-
-        viewModel.notification.observe(viewLifecycleOwner, Observer {
+        viewModel.notification.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_SHORT)
                 .show()
-        })
+        }
 
-        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+        viewModel.logMessage.observe(viewLifecycleOwner) {
             Log.d(TAG, it)
-        })
+        }
 
-        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner, Observer { user ->
+        viewModel.navigateToChatLogScreen.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 this.findNavController().navigate(
                     LatestMessagesFragmentDirections.actionLatestMessagesFragmentToChatLogFragment(
@@ -115,12 +119,7 @@ class LatestMessagesFragment : Fragment() {
                 )
                 viewModel.displayChatLogScreenCompleted()
             }
-        })
-
-        viewModel.listenForLatestMessages()
-
-        initActionBarTitle()
-        return binding.root
+        }
     }
 
     private fun fetchCurrentUser() {
