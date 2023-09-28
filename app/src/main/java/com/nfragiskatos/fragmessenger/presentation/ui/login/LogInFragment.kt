@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.databinding.FragmentLogInBinding
@@ -30,34 +29,34 @@ class LogInFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentLogInBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-        binding.buttonLogInLogIn.setOnClickListener {
-            hideKeyboard(requireActivity())
-            viewModel.performLogIn()
+        binding = FragmentLogInBinding.inflate(inflater).also {
+            it.lifecycleOwner = this
+            it.viewModel = viewModel
+            it.buttonLogInLogIn.setOnClickListener {
+                hideKeyboard(requireActivity())
+                viewModel.performLogIn()
+            }
         }
         initObservers()
         return binding.root
     }
 
     private fun initObservers() {
-        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
+        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 this.findNavController()
                     .navigate(LogInFragmentDirections.actionLogInFragmentToLatestMessagesFragment())
                 viewModel.displayLatestMessagesScreenComplete()
             }
-        })
-        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+        }
+        viewModel.logMessage.observe(viewLifecycleOwner) {
             Log.d(TAG, it)
-        })
-        viewModel.notification.observe(viewLifecycleOwner, Observer {
+        }
+        viewModel.notification.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_LONG)
                 .show()
-        })
-        viewModel.status.observe(viewLifecycleOwner, Observer { status ->
+        }
+        viewModel.status.observe(viewLifecycleOwner) { status ->
             when (status) {
                 LoadingStatus.LOADING -> {
                     setLoginEnabled(false)
@@ -67,12 +66,14 @@ class LogInFragment : Fragment() {
                     setLoginEnabled(true)
                 }
             }
-        })
+        }
     }
 
     private fun setLoginEnabled(isEnabled: Boolean) {
-        binding.textPasswordLogIn.isEnabled = isEnabled
-        binding.textEmailLogIn.isEnabled = isEnabled
-        binding.buttonLogInLogIn.isEnabled = isEnabled
+        binding.apply {
+            textPasswordLogIn.isEnabled = isEnabled
+            textEmailLogIn.isEnabled = isEnabled
+            buttonLogInLogIn.isEnabled = isEnabled
+        }
     }
 }
