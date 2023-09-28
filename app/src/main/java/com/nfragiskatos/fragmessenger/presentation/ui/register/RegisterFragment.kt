@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.nfragiskatos.fragmessenger.databinding.FragmentRegisterBinding
@@ -33,19 +32,19 @@ class RegisterFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentRegisterBinding.inflate(inflater)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-
-        binding.buttonSelectPhotoRegister.setOnClickListener {
-            Log.d(TAG, "Try and show photo selector")
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.type = "image/*"
-            startActivityForResult(intent, 0)
-        }
-        binding.buttonRegisterRegister.setOnClickListener {
-            hideKeyboard(requireActivity())
-            viewModel.performRegistration()
+        binding = FragmentRegisterBinding.inflate(inflater).also { binding ->
+            binding.lifecycleOwner = this
+            binding.viewModel = viewModel
+            binding.buttonSelectPhotoRegister.setOnClickListener {
+                Log.d(TAG, "Try and show photo selector")
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, 0)
+            }
+            binding.buttonRegisterRegister.setOnClickListener {
+                hideKeyboard(requireActivity())
+                viewModel.performRegistration()
+            }
         }
         initObservers()
         setHasOptionsMenu(true)
@@ -53,30 +52,30 @@ class RegisterFragment : Fragment() {
     }
 
     private fun initObservers() {
-        viewModel.navigateToLogInScreen.observe(viewLifecycleOwner, Observer { navigate ->
+        viewModel.navigateToLogInScreen.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 this.findNavController()
                     .navigate(RegisterFragmentDirections.actionFragmentRegisterToLogInFragment())
                 viewModel.displayLogInScreenComplete()
             }
-        })
+        }
 
-        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner, Observer { navigate ->
+        viewModel.navigateToLatestMessagesScreen.observe(viewLifecycleOwner) { navigate ->
             if (navigate) {
                 this.findNavController()
                     .navigate(RegisterFragmentDirections.actionRegisterFragmentToLatestMessagesFragment())
                 viewModel.displayLatestMessagesScreenComplete()
             }
-        })
+        }
 
-        viewModel.logMessage.observe(viewLifecycleOwner, Observer {
+        viewModel.logMessage.observe(viewLifecycleOwner) {
             Log.d(TAG, it)
-        })
+        }
 
-        viewModel.notification.observe(viewLifecycleOwner, Observer {
+        viewModel.notification.observe(viewLifecycleOwner) {
             Toast.makeText(context, it, Toast.LENGTH_LONG)
                 .show()
-        })
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
