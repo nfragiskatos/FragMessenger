@@ -12,8 +12,12 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.nfragiskatos.fragmessenger.data.remote.FirebaseRepositoryImpl
+import com.nfragiskatos.fragmessenger.domain.models.RegistrationResult
 import com.nfragiskatos.fragmessenger.domain.models.User
 import com.nfragiskatos.fragmessenger.utility.LoadingStatus
+import com.nfragiskatos.fragmessenger.utility.Result
+import com.nfragiskatos.fragmessenger.utility.Result.Error
+import com.nfragiskatos.fragmessenger.utility.Result.Success
 import kotlinx.coroutines.launch
 import java.util.UUID
 
@@ -78,25 +82,32 @@ class RegisterViewModel : ViewModel() {
             _status.value = LoadingStatus.LOADING
 
             try {
-                val result =
+                val result: Result<RegistrationResult> =
                     repository.performRegistration(email.value!!, password.value!!)
-                if (result != null) {
-                    _logMessage.value =
-                        "Successfully created user with\nuid: ${result.user?.uid}\nemail: ${result.user?.email}"
-                    val profileImageUri = uploadProfileImageToFirebaseStorage()
-                    Firebase.auth.uid?.also { uid ->
-                        saveUserToFirebaseDatabase(uid, username.value!!, profileImageUri)
-                    }
-                } else {
-                    _status.value = LoadingStatus.DONE
-                }
 
+                when (result) {
+                    is Error -> {
+                        setError(result.message)
+                    }
+
+                    is Success -> {
+                        val data = result.data
+                        _logMessage.value =
+                            "Successfully created user with\nuid: ${data.uid}\nemail: ${data.email}"
+                        val profileImageUri = uploadProfileImageToFirebaseStorage()
+                        Firebase.auth.uid?.also { uid ->
+                            saveUserToFirebaseDatabase(uid, username.value!!, profileImageUri)
+                        }
+                    }
+                }
             } catch (e: FirebaseAuthWeakPasswordException) {
                 setError(e.message ?: "Password must be at least 6 characters")
             } catch (e: FirebaseAuthInvalidCredentialsException) {
                 setError(e.message ?: "Password must be at least 6 characters")
             } catch (e: FirebaseAuthUserCollisionException) {
                 setError(e.message ?: "Email already in use")
+            } finally {
+                _status.value = LoadingStatus.DONE
             }
         }
     }
