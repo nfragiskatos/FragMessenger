@@ -1,14 +1,23 @@
 # FragMessenger
 FragMessenger is an example app that uses Firebase as the back end to facilitate creating accounts and storing + sending messages between users.
 
-### Patterns / Technologies
-- MVVM Architecture
-- Fragments
-- Jetpack Navigation
-- Jetpack RecyclerView
-- [Firebase](https://firebase.google.com/) - For Backend
-- [Picasso](https://square.github.io/picasso/) - For loading image resources.
-- [CircleImageView](https://github.com/hdodenhof/CircleImageView) - Images are circular instead of rectangular.
+### Topics Covered:
+<table>
+  <tr>
+    <td>MVVM</td>
+    <td>Fragments</td>
+    <td>Navigation</td>
+    <td>RecyclerView</td>
+    <td> <a href="https://firebase.google.com/">Firebase</a> - For Backend</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/hdodenhof/CircleImageView">CircleImageView</a> - Images are circular instead of rectangular</td>
+    <td>ViewModel</td>
+    <td>LiveData</td>
+    <td>Callbacks</td>
+    <td><a href="https://square.github.io/picasso/">Picasso</a> - For loading image resources</td>
+  </tr>
+</table>
 
 ### Possible Improvements
 - [x] Move Firebase calls to a repository
